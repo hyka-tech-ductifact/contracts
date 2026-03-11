@@ -1,0 +1,30 @@
+# ─── Health Endpoints ────────────────────────────────────────
+get:
+  summary: Health check
+  operationId: healthCheck
+  tags:
+    - Health
+  responses:
+    "200":
+      description: Service is healthy
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/health.yaml#/HealthResponse"
+          example:
+            status: "healthy"
+            uptime: "2h35m10s"
+            database: "connected"
+            contract_version: "1.0.0"
+    "503":
+      description: Service is unhealthy (database disconnected)
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/health.yaml#/HealthResponseUnhealthy"
+          example:
+            status: "unhealthy"
+            uptime: "2h35m10s"
+            database: "disconnected"
+            error: "connection refused"
+            contract_version: "1.0.0"

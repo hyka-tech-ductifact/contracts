@@ -1,0 +1,67 @@
+# ─── User Endpoints ──────────────────────────────────────────
+
+# GET /users/me + PUT /users/me
+me:
+  get:
+    summary: Get authenticated user's profile
+    operationId: getMe
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: User profile returned
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/user.yaml#/UserResponse"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+
+  put:
+    summary: Update authenticated user's profile
+    operationId: updateMe
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/user.yaml#/UpdateUserRequest"
+          example:
+            name: "Pedro López"
+    responses:
+      "200":
+        description: User updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/user.yaml#/UserResponse"
+      "400":
+        description: Invalid request body
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "409":
+        description: Email already in use
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "email already in use"

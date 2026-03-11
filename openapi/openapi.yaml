@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Ductifact API
+  description: Backend API for Ductifact platform
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development
+
+security: []
+
+# ─── Paths (split by resource) ────────────────────────────────
+paths:
+  /health:
+    $ref: "paths/health.yaml"
+
+  /auth/register:
+    $ref: "paths/auth.yaml#/register"
+  /auth/login:
+    $ref: "paths/auth.yaml#/login"
+
+  /users/me:
+    $ref: "paths/users.yaml#/me"
+
+  /users/me/clients:
+    $ref: "paths/clients.yaml#/collection"
+  /users/me/clients/{client_id}:
+    $ref: "paths/clients.yaml#/item"
+
+# ─── Components ───────────────────────────────────────────────
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /auth/login or /auth/register
+
+  schemas:
+    # Auth
+    RegisterRequest:
+      $ref: "schemas/auth.yaml#/RegisterRequest"
+    LoginRequest:
+      $ref: "schemas/auth.yaml#/LoginRequest"
+    AuthResponse:
+      $ref: "schemas/auth.yaml#/AuthResponse"
+
+    # User
+    UserResponse:
+      $ref: "schemas/user.yaml#/UserResponse"
+    UpdateUserRequest:
+      $ref: "schemas/user.yaml#/UpdateUserRequest"
+
+    # Client
+    ClientResponse:
+      $ref: "schemas/client.yaml#/ClientResponse"
+    CreateClientRequest:
+      $ref: "schemas/client.yaml#/CreateClientRequest"
+    UpdateClientRequest:
+      $ref: "schemas/client.yaml#/UpdateClientRequest"
+
+    # Health
+    HealthResponse:
+      $ref: "schemas/health.yaml#/HealthResponse"
+    HealthResponseUnhealthy:
+      $ref: "schemas/health.yaml#/HealthResponseUnhealthy"
+
+    # Error
+    ErrorResponse:
+      $ref: "schemas/error.yaml#/ErrorResponse"

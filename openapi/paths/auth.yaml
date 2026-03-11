@@ -1,0 +1,78 @@
+# ─── Auth Endpoints ──────────────────────────────────────────
+
+# POST /auth/register
+register:
+  post:
+    summary: Register a new user
+    operationId: register
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/RegisterRequest"
+          example:
+            name: "Juan García"
+            email: "juan@example.com"
+            password: "securepass123"
+    responses:
+      "201":
+        description: User registered successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/AuthResponse"
+      "400":
+        description: Invalid request body (missing fields, invalid email, short password)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "409":
+        description: Email already registered
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "email already registered"
+
+# POST /auth/login
+login:
+  post:
+    summary: Log in with email and password
+    operationId: login
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/LoginRequest"
+          example:
+            email: "juan@example.com"
+            password: "securepass123"
+    responses:
+      "200":
+        description: Login successful
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/AuthResponse"
+      "400":
+        description: Invalid request body (missing fields)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Invalid credentials
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid email or password"

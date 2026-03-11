@@ -1,0 +1,55 @@
+# ─── Auth Schemas ────────────────────────────────────────────
+RegisterRequest:
+  type: object
+  description: Request body for registering a new user
+  required:
+    - name
+    - email
+    - password
+  properties:
+    name:
+      type: string
+      minLength: 1
+      description: The user's full name
+      example: "Juan García"
+    email:
+      type: string
+      format: email
+      description: The user's email address (must be unique)
+      example: "juan@example.com"
+    password:
+      type: string
+      minLength: 8
+      description: Password (minimum 8 characters)
+      example: "securepass123"
+
+LoginRequest:
+  type: object
+  description: Request body for logging in
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      format: email
+      description: The user's email address
+      example: "juan@example.com"
+    password:
+      type: string
+      description: The user's password
+      example: "securepass123"
+
+AuthResponse:
+  type: object
+  description: Response returned after successful register or login
+  required:
+    - user
+    - token
+  properties:
+    user:
+      $ref: "user.yaml#/UserResponse"
+    token:
+      type: string
+      description: JWT token for authenticating subsequent requests
+      example: "eyJhbGciOiJIUzI1NiIs..."
