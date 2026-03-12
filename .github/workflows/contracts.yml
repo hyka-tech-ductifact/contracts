@@ -1,0 +1,55 @@
+name: Contracts CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: Validate OpenAPI spec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint and validate
+        run: make validate
+
+  breaking:
+    name: Detect breaking changes
+    if: github.event_name == 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for breaking changes
+        run: make breaking BASE_REF=origin/${{ github.base_ref }}
+
+  release:
+    name: Bundle and publish release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bundle spec
+        run: make bundle
+
+      - name: Inject version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i "s/^  version: .*/  version: $VERSION/" openapi/bundled.yaml
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: openapi/bundled.yaml
+          generate_release_notes: true
