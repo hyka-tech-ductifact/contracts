@@ -1,4 +1,4 @@
-name: Contracts CI
+name: CI / CD
 
 on:
   pull_request:
@@ -12,6 +12,7 @@ permissions:
 jobs:
   validate:
     name: Validate OpenAPI spec
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +36,6 @@ jobs:
   release:
     name: Bundle and publish release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
