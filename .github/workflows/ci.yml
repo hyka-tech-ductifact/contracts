@@ -25,6 +25,7 @@ jobs:
   validate:
     name: Validate OpenAPI spec
     if: github.event_name == 'pull_request'
+    needs: branch-rules
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
