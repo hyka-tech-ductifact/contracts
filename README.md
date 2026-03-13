@@ -86,6 +86,7 @@ All branches must follow the naming convention enforced by CI:
 | `feat/` | New endpoints, schemas, or fields | `feat/add-invoice-endpoints` |
 | `fix/` | Fix spec errors, typos, wrong types | `fix/user-email-format` |
 | `docs/` | README, descriptions, examples | `docs/update-auth-examples` |
+| `chore/` | Makefile, CI, tooling (no contract changes) | `chore/update-ci-workflow` |
 
 All PRs target `main`. There is no `release` branch — releases are driven by tags.
 
