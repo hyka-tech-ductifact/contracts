@@ -77,9 +77,23 @@ This repository follows [Semantic Versioning](https://semver.org/):
 
 ## Contributing
 
-1. Create a feature branch from `main`:
+### Branch naming
+
+All branches must follow the naming convention enforced by CI:
+
+| Prefix | Purpose | Example |
+|---|---|---|
+| `feat/` | New endpoints, schemas, or fields | `feat/add-invoice-endpoints` |
+| `fix/` | Fix spec errors, typos, wrong types | `fix/user-email-format` |
+| `docs/` | README, descriptions, examples | `docs/update-auth-examples` |
+
+All PRs target `main`. There is no `release` branch — releases are driven by tags.
+
+### Workflow
+
+1. Create a branch from `main`:
    ```bash
-   git checkout -b feature/add-invoice-endpoints
+   git checkout -b feat/add-invoice-endpoints
    ```
 2. Edit the source files under `openapi/` (never edit `bundled.yaml` directly).
 3. Validate locally:

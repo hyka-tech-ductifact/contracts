@@ -1,4 +1,4 @@
-.PHONY: validate bundle breaking start stop
+.PHONY: validate bundle breaking start stop validate-branch
 
 SPEC       := openapi/openapi.yaml
 BUNDLED    := openapi/bundled.yaml
@@ -40,3 +40,17 @@ start: bundle
 ## stop: Stop Swagger UI
 stop:
 	docker stop swagger-ui
+
+## validate-branch: Validate branch name (used in CI)
+## Requires BRANCH env var.
+validate-branch:
+	@PATTERN='^(feat|fix|docs)/.+$$'; \
+	if [ -z "$$BRANCH" ]; then \
+		echo "❌ BRANCH env var is required"; exit 1; \
+	fi; \
+	if ! echo "$$BRANCH" | grep -qE "$$PATTERN"; then \
+		echo "❌ Branch '$$BRANCH' does not match: $$PATTERN"; \
+		echo "   Expected: feat/*, fix/*, docs/*"; \
+		exit 1; \
+	fi; \
+	echo "✅ Branch '$$BRANCH' is valid"

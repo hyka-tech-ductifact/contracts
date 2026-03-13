@@ -10,6 +10,18 @@ permissions:
   contents: write
 
 jobs:
+  branch-rules:
+    name: Branch Rules
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate branch name
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: make validate-branch
+
   validate:
     name: Validate OpenAPI spec
     if: github.event_name == 'pull_request'
