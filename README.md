@@ -85,6 +85,7 @@ This repository follows [Semantic Versioning](https://semver.org/):
 3. Validate locally:
    ```bash
    make validate
+   make breaking
    ```
 4. Commit, push, and open a Pull Request against `main`.
 5. After merge, tag and push the new version:
