@@ -16,6 +16,14 @@ get:
             uptime: "2h35m10s"
             database: "connected"
             contract_version: "1.0.0"
+    "404":
+      description: Endpoint not found
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/error.yaml#/ErrorResponse"
+          example:
+            error: "endpoint not found"
     "503":
       description: Service is unhealthy (database disconnected)
       content:

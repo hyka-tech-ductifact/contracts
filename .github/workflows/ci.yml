@@ -1,0 +1,68 @@
+name: CI / CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  branch-rules:
+    name: Branch Rules
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate branch name
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: make validate-branch
+
+  validate:
+    name: Validate OpenAPI spec
+    if: github.event_name == 'pull_request'
+    needs: branch-rules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint and validate
+        run: make validate
+
+  breaking:
+    name: Detect breaking changes
+    if: github.event_name == 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for breaking changes
+        run: make breaking BASE_REF=origin/${{ github.base_ref }}
+
+  release:
+    name: Publish Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bundle spec
+        run: make bundle
+
+      - name: Inject version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed -i "s/^  version: .*/  version: $VERSION/" openapi/bundled.yaml
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: openapi/bundled.yaml
+          generate_release_notes: true
