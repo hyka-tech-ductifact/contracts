@@ -1,22 +1,41 @@
-.PHONY: validate bundle breaking start stop validate-branch
+# Ductifact Contracts Makefile
 
-SPEC       := openapi/openapi.yaml
-BUNDLED    := openapi/bundled.yaml
-BASE_REF   ?= main
-SWAGGER_PORT := 8081
+.PHONY: help validate bundle breaking start stop validate-branch
 
-## validate: Lint and validate the OpenAPI spec
+SPEC         := openapi/openapi.yaml
+BUNDLED      := openapi/bundled.yaml
+BASE_REF     ?= main
+SWAGGER_PORT ?= 8081
+
+# ─── Help ────────────────────────────────────────────────────
+help:
+	@echo "Available commands:"
+	@echo ""
+	@echo "  Spec:"
+	@echo "    validate         - Lint and validate the OpenAPI spec"
+	@echo "    bundle           - Resolve \$$ref and generate bundled.yaml"
+	@echo "    breaking         - Detect breaking changes vs a base (default: main)"
+	@echo "                       make breaking BASE_REF=v0.1.0"
+	@echo ""
+	@echo "  Swagger UI:"
+	@echo "    start            - Bundle + launch Swagger UI (port $(SWAGGER_PORT))"
+	@echo "                       make start SWAGGER_PORT=9090"
+	@echo "    stop             - Stop Swagger UI"
+	@echo ""
+	@echo "  CI:"
+	@echo "    validate-branch  - Validate branch name (requires BRANCH env var)"
+
+# ─── Spec ────────────────────────────────────────────────────
+
+# Lint and validate the OpenAPI spec
 validate:
 	docker run --rm -v $(PWD)/openapi:/spec redocly/cli lint /spec/openapi.yaml
 
-## bundle: Resolve all $ref and generate bundled.yaml
+# Resolve all $ref and generate bundled.yaml
 bundle:
 	docker run --rm -v $(PWD)/openapi:/spec redocly/cli bundle /spec/openapi.yaml -o /spec/bundled.yaml
 
-## breaking: Detect breaking changes against a base branch or tag
-##   make breaking                          (compares against main)
-##   make breaking BASE_REF=v0.1.0         (compares against a tag)
-##   make breaking BASE_REF=origin/main    (CI usage)
+# Detect breaking changes against a base branch or tag
 breaking: bundle
 	@rm -rf /tmp/oasdiff-base && mkdir -p /tmp/oasdiff-base
 	cd /tmp/oasdiff-base && git -C $(CURDIR) archive $(BASE_REF) -- openapi/ | tar xf -
@@ -27,7 +46,9 @@ breaking: bundle
 		tufin/oasdiff breaking /base/base-bundled.yaml /spec/bundled.yaml
 	@rm -rf /tmp/oasdiff-base
 
-## start: Bundle + launch Swagger UI on port $(SWAGGER_PORT)
+# ─── Swagger UI ──────────────────────────────────────────────
+
+# Bundle + launch Swagger UI
 start: bundle
 	@docker rm -f swagger-ui 2>/dev/null || true
 	docker run --rm -d --name swagger-ui \
@@ -37,20 +58,21 @@ start: bundle
 		swaggerapi/swagger-ui
 	@echo "Swagger UI → http://localhost:$(SWAGGER_PORT)"
 
-## stop: Stop Swagger UI
+# Stop Swagger UI
 stop:
-	docker stop swagger-ui
+	@docker stop swagger-ui 2>/dev/null || echo "Swagger UI is not running"
 
-## validate-branch: Validate branch name (used in CI)
-## Requires BRANCH env var.
+# ─── CI ──────────────────────────────────────────────────────
+
+# Validate branch name (used in CI). Requires BRANCH env var.
 validate-branch:
-	@PATTERN='^(feat|fix|docs)/.+$$'; \
+	@PATTERN='^(feat|fix|docs|chore)/.+$$'; \
 	if [ -z "$$BRANCH" ]; then \
 		echo "❌ BRANCH env var is required"; exit 1; \
 	fi; \
 	if ! echo "$$BRANCH" | grep -qE "$$PATTERN"; then \
 		echo "❌ Branch '$$BRANCH' does not match: $$PATTERN"; \
-		echo "   Expected: feat/*, fix/*, docs/*"; \
+		echo "   Expected: feat/*, fix/*, docs/*, chore/*"; \
 		exit 1; \
 	fi; \
 	echo "✅ Branch '$$BRANCH' is valid"
