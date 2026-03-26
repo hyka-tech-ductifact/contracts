@@ -8,7 +8,7 @@ info:
     url: https://creativecommons.org/licenses/by-nc/4.0/
 
 servers:
-  - url: "{protocol}://{host}/api/v1"
+  - url: "{protocol}://{host}"
     description: Configurable server
     variables:
       protocol:
@@ -24,17 +24,17 @@ paths:
   /health:
     $ref: "paths/health.yaml"
 
-  /auth/register:
+  /v1/auth/register:
     $ref: "paths/auth.yaml#/register"
-  /auth/login:
+  /v1/auth/login:
     $ref: "paths/auth.yaml#/login"
 
-  /users/me:
+  /v1/users/me:
     $ref: "paths/users.yaml#/me"
 
-  /users/me/clients:
+  /v1/users/me/clients:
     $ref: "paths/clients.yaml#/collection"
-  /users/me/clients/{client_id}:
+  /v1/users/me/clients/{client_id}:
     $ref: "paths/clients.yaml#/item"
 
 # ─── Components ───────────────────────────────────────────────
