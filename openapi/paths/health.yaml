@@ -1,4 +1,14 @@
 # ─── Health Endpoints ────────────────────────────────────────
+# /health lives at the root (no /v1 prefix), so it needs its own server.
+servers:
+  - url: "{protocol}://{host}"
+    description: Root server (no version prefix)
+    variables:
+      protocol:
+        default: http
+        enum: [http, https]
+      host:
+        default: localhost:8080
 get:
   summary: Health check
   operationId: healthCheck
