@@ -77,41 +77,7 @@ This repository follows [Semantic Versioning](https://semver.org/):
 
 ## Contributing
 
-### Branch naming
-
-All branches must follow the naming convention enforced by CI:
-
-| Prefix | Purpose | Example |
-|---|---|---|
-| `feat/` | New endpoints, schemas, or fields | `feat/add-invoice-endpoints` |
-| `fix/` | Fix spec errors, typos, wrong types | `fix/user-email-format` |
-| `docs/` | README, descriptions, examples | `docs/update-auth-examples` |
-| `chore/` | Makefile, CI, tooling (no contract changes) | `chore/update-ci-workflow` |
-
-All PRs target `main`. There is no `release` branch — releases are driven by tags.
-
-### Workflow
-
-1. Create a branch from `main`:
-   ```bash
-   git checkout -b feat/add-invoice-endpoints
-   ```
-2. Edit the source files under `openapi/` (never edit `bundled.yaml` directly).
-3. Validate locally:
-   ```bash
-   make validate
-   make breaking
-   ```
-4. Commit, push, and open a Pull Request against `main`.
-5. After merge, tag and push the new version:
-   ```bash
-   git checkout main && git pull
-   git tag -a v0.2.0 -m "feat: add invoice endpoints"
-   git push origin v0.2.0
-   ```
-   The CI will automatically create the GitHub Release with the bundled spec attached.
-
-   https://github.com/<org>/contracts/releases/download/v0.2.0/bundled.yaml
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, workflow, and release process.
 
 ## License
 The contracts/specifications in this repository are licensed under CC BY-NC 4.0.
