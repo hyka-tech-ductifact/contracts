@@ -1,4 +1,4 @@
-# Contracts
+# Ductifact — Contracts
 
 Shared OpenAPI specification for the Ductifact platform. This repository acts as the **single source of truth** for the API contract consumed by backend, frontend, and QA.
 
@@ -49,35 +49,9 @@ openapi/
 
 > `bundled.yaml` is a generated artifact (git-ignored). It is created by `make start` to resolve all `$ref` entries into a single file for Swagger UI.
 
-## CI/CD
-
-A GitHub Actions workflow (`.github/workflows/contracts.yml`) automates validation and publishing:
-
-| Trigger | Job | What it does |
-|---|---|---|
-| Pull request to `main` | **validate** | Runs `make validate` — blocks merge if spec is invalid |
-| Pull request to `main` | **breaking** | Compares current spec against `main` and fails if there are breaking changes |
-| Push tag `v*` | **release** | Validates, bundles, and publishes `bundled.yaml` as a GitHub Release asset |
-
-Consumers can download the bundled spec from any release:
-
-```
-https://github.com/<org>/contracts/releases/download/<tag>/bundled.yaml
-```
-
-## Versioning
-
-This repository follows [Semantic Versioning](https://semver.org/):
-
-| Change type | Example | Version bump |
-|---|---|---|
-| **PATCH** | Fix typo in description, update example | `v0.1.0` → `v0.1.1` |
-| **MINOR** | Add new endpoint or optional field | `v0.1.0` → `v0.2.0` |
-| **MAJOR** | Remove field, rename endpoint, change response structure | `v0.1.0` → `v1.0.0` |
-
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, workflow, and release process.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, workflow, versioning, CI/CD, and release process.
 
 ## License
 The contracts/specifications in this repository are licensed under CC BY-NC 4.0.

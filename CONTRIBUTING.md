@@ -36,7 +36,7 @@ make validate
 make breaking
 ```
 
-Commit, push, and open a Pull Request against `main`.
+Commit, push, and open a Pull Request against `main`. Use **squash merge** (1 PR = 1 commit).
 
 ---
 
@@ -58,9 +58,27 @@ git push origin v0.2.0
 
 CI automatically creates the GitHub Release with `bundled.yaml` attached.
 
+Consumers can download the bundled spec from any release:
+
+```
+https://github.com/<org>/contracts/releases/download/<tag>/bundled.yaml
+```
+
 ---
 
-## 4) Commit messages
+## 4) CI/CD
+
+A GitHub Actions workflow (`.github/workflows/contracts.yml`) automates validation and publishing:
+
+| Trigger | Job | What it does |
+|---|---|---|
+| Pull request to `main` | **validate** | Runs `make validate` — blocks merge if spec is invalid |
+| Pull request to `main` | **breaking** | Compares current spec against `main` and fails if there are breaking changes |
+| Push tag `v*` | **release** | Validates, bundles, and publishes `bundled.yaml` as a GitHub Release asset |
+
+---
+
+## 5) Commit messages
 
 [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -68,8 +86,8 @@ CI automatically creates the GitHub Release with `bundled.yaml` attached.
 
 ---
 
-## 5) PR rules
+## 6) PR rules
 
 - No direct pushes to `main`
 - CI must pass (validate + breaking change detection)
-- Keep PRs focused on one logical change
+- Keep PRs small and focused
