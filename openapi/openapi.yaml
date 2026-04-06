@@ -28,6 +28,8 @@ paths:
     $ref: "paths/auth.yaml#/register"
   /auth/login:
     $ref: "paths/auth.yaml#/login"
+  /auth/refresh:
+    $ref: "paths/auth.yaml#/refresh"
 
   /users/me:
     $ref: "paths/users.yaml#/me"
@@ -54,6 +56,10 @@ components:
       $ref: "schemas/auth.yaml#/LoginRequest"
     AuthResponse:
       $ref: "schemas/auth.yaml#/AuthResponse"
+    RefreshRequest:
+      $ref: "schemas/auth.yaml#/RefreshRequest"
+    TokenResponse:
+      $ref: "schemas/auth.yaml#/TokenResponse"
 
     # User
     UserResponse:

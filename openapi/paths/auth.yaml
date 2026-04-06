@@ -76,3 +76,40 @@ login:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "invalid email or password"
+
+# POST /auth/refresh
+refresh:
+  post:
+    summary: Refresh an access token using a refresh token
+    operationId: refreshToken
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/RefreshRequest"
+          example:
+            refresh_token: "eyJhbGciOiJIUzI1NiIs..."
+    responses:
+      "200":
+        description: Token refreshed successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/TokenResponse"
+      "400":
+        description: Invalid request body (missing refresh_token)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Invalid or expired refresh token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid or expired refresh token"
