@@ -30,6 +30,8 @@ paths:
     $ref: "paths/auth.yaml#/login"
   /auth/refresh:
     $ref: "paths/auth.yaml#/refresh"
+  /auth/logout:
+    $ref: "paths/auth.yaml#/logout"
 
   /users/me:
     $ref: "paths/users.yaml#/me"
@@ -60,6 +62,10 @@ components:
       $ref: "schemas/auth.yaml#/RefreshRequest"
     TokenResponse:
       $ref: "schemas/auth.yaml#/TokenResponse"
+    LogoutRequest:
+      $ref: "schemas/auth.yaml#/LogoutRequest"
+    MessageResponse:
+      $ref: "schemas/auth.yaml#/MessageResponse"
 
     # User
     UserResponse:

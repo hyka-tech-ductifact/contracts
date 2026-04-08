@@ -113,3 +113,42 @@ refresh:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "invalid or expired refresh token"
+
+# POST /auth/logout
+logout:
+  post:
+    summary: Log out by revoking the current tokens
+    operationId: logout
+    tags:
+      - Auth
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/LogoutRequest"
+          example:
+            refresh_token: "eyJhbGciOiJIUzI1NiIs..."
+    responses:
+      "200":
+        description: Logged out successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/MessageResponse"
+            example:
+              message: "logged out successfully"
+      "400":
+        description: Invalid request body (missing refresh_token)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Missing or invalid access token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
