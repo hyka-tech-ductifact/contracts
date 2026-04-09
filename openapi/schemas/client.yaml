@@ -43,3 +43,34 @@ ClientResponse:
       format: uuid
       description: ID of the user who owns this client
       example: "550e8400-e29b-41d4-a716-446655440000"
+
+PaginatedClientResponse:
+  type: object
+  description: Paginated list of clients with navigation metadata
+  required:
+    - data
+    - page
+    - page_size
+    - total_items
+    - total_pages
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/ClientResponse"
+    page:
+      type: integer
+      description: Current page number (1-based)
+      example: 1
+    page_size:
+      type: integer
+      description: Number of items per page
+      example: 20
+    total_items:
+      type: integer
+      description: Total number of items across all pages
+      example: 47
+    total_pages:
+      type: integer
+      description: Total number of pages
+      example: 3

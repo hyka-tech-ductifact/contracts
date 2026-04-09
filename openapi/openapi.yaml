@@ -28,6 +28,10 @@ paths:
     $ref: "paths/auth.yaml#/register"
   /auth/login:
     $ref: "paths/auth.yaml#/login"
+  /auth/refresh:
+    $ref: "paths/auth.yaml#/refresh"
+  /auth/logout:
+    $ref: "paths/auth.yaml#/logout"
 
   /users/me:
     $ref: "paths/users.yaml#/me"
@@ -54,6 +58,14 @@ components:
       $ref: "schemas/auth.yaml#/LoginRequest"
     AuthResponse:
       $ref: "schemas/auth.yaml#/AuthResponse"
+    RefreshRequest:
+      $ref: "schemas/auth.yaml#/RefreshRequest"
+    TokenResponse:
+      $ref: "schemas/auth.yaml#/TokenResponse"
+    LogoutRequest:
+      $ref: "schemas/auth.yaml#/LogoutRequest"
+    MessageResponse:
+      $ref: "schemas/auth.yaml#/MessageResponse"
 
     # User
     UserResponse:
@@ -68,6 +80,8 @@ components:
       $ref: "schemas/client.yaml#/CreateClientRequest"
     UpdateClientRequest:
       $ref: "schemas/client.yaml#/UpdateClientRequest"
+    PaginatedClientResponse:
+      $ref: "schemas/client.yaml#/PaginatedClientResponse"
 
     # Health
     HealthResponse:
