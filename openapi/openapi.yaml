@@ -80,6 +80,8 @@ components:
       $ref: "schemas/client.yaml#/CreateClientRequest"
     UpdateClientRequest:
       $ref: "schemas/client.yaml#/UpdateClientRequest"
+    PaginatedClientResponse:
+      $ref: "schemas/client.yaml#/PaginatedClientResponse"
 
     # Health
     HealthResponse:
