@@ -65,6 +65,7 @@ stop:
 # ─── Maintenance ─────────────────────────────────────────────
 
 # Clean all untracked and ignored files.
+clean:
 	@echo "Cleaning all generated files..."
 	@git clean -fdx
 	@echo "✅ Cleanup completed!"
