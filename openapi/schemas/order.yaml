@@ -14,10 +14,7 @@ CreateOrderRequest:
     - title
   properties:
     title:
-      type: string
-      minLength: 1
-      description: Title of the order
-      example: "Steel beams – lot 3"
+      $ref: "_fields.yaml#/OrderTitle"
     status:
       $ref: "#/OrderStatus"
 
@@ -26,9 +23,7 @@ UpdateOrderRequest:
   description: Request body for updating an order. All fields are optional.
   properties:
     title:
-      type: string
-      minLength: 1
-      description: Title of the order
+      $ref: "_fields.yaml#/OrderTitle"
       example: "Steel beams – lot 3 (revised)"
     status:
       $ref: "#/OrderStatus"
@@ -43,21 +38,15 @@ OrderResponse:
     - project_id
   properties:
     id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: Unique order identifier
-      example: "880e8400-e29b-41d4-a716-446655440000"
     title:
-      type: string
-      description: Title of the order
-      example: "Steel beams – lot 3"
+      $ref: "_fields.yaml#/OrderTitle"
     status:
       $ref: "#/OrderStatus"
     project_id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: ID of the project this order belongs to
-      example: "770e8400-e29b-41d4-a716-446655440000"
 
 PaginatedOrderResponse:
   type: object
@@ -74,18 +63,12 @@ PaginatedOrderResponse:
       items:
         $ref: "#/OrderResponse"
     page:
-      type: integer
-      description: Current page number (1-based)
-      example: 1
+      $ref: "_fields.yaml#/Page"
     page_size:
-      type: integer
-      description: Number of items per page
-      example: 20
+      $ref: "_fields.yaml#/PageSize"
     total_items:
-      type: integer
-      description: Total number of items across all pages
+      $ref: "_fields.yaml#/TotalItems"
       example: 12
     total_pages:
-      type: integer
-      description: Total number of pages
+      $ref: "_fields.yaml#/TotalPages"
       example: 1

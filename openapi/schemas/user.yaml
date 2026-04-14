@@ -4,15 +4,11 @@ UpdateUserRequest:
   description: Request body for updating a user. All fields are optional.
   properties:
     name:
-      type: string
-      minLength: 1
+      $ref: "_fields.yaml#/UserName"
       description: The user's new name
-      example: "Pedro López"
     email:
-      type: string
-      format: email
+      $ref: "_fields.yaml#/UserEmail"
       description: The user's new email (must be unique)
-      example: "pedro@example.com"
 
 UserResponse:
   type: object
@@ -23,16 +19,9 @@ UserResponse:
     - email
   properties:
     id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: Unique user identifier
-      example: "550e8400-e29b-41d4-a716-446655440000"
     name:
-      type: string
-      description: The user's full name
-      example: "Juan García"
+      $ref: "_fields.yaml#/UserName"
     email:
-      type: string
-      format: email
-      description: The user's email address
-      example: "juan@example.com"
+      $ref: "_fields.yaml#/UserEmail"

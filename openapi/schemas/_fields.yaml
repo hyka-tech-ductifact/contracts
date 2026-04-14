@@ -1,0 +1,112 @@
+# ─── Reusable field definitions ──────────────────────────────
+# Single source of truth for properties shared across schemas.
+# In OpenAPI 3.1 you can add siblings alongside $ref to override
+# description, example, or add extra constraints (e.g. minLength).
+
+# ── Auth tokens ──────────────────────────────────────────────
+AccessToken:
+  type: string
+  description: Short-lived JWT for authenticating API requests
+  example: "eyJhbGciOiJIUzI1NiIs..."
+
+RefreshToken:
+  type: string
+  description: Long-lived JWT for obtaining new access tokens
+  example: "eyJhbGciOiJIUzI1NiIs..."
+
+Password:
+  type: string
+  description: User password
+  example: "securepass123"
+
+# ── User fields ──────────────────────────────────────────────
+UserName:
+  type: string
+  minLength: 1
+  description: The user's full name
+  example: "Juan García"
+
+UserEmail:
+  type: string
+  format: email
+  pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+  description: The user's email address
+  example: "juan@example.com"
+
+# ── Entity names ─────────────────────────────────────────────
+ClientName:
+  type: string
+  minLength: 1
+  description: The client's name
+  example: "Acme Corp"
+
+ProjectName:
+  type: string
+  minLength: 1
+  description: The project's name
+  example: "Residential Tower B"
+
+OrderTitle:
+  type: string
+  minLength: 1
+  description: Title of the order
+  example: "Steel beams – lot 3"
+
+# ── Shared optional fields ───────────────────────────────────
+Phone:
+  type: string
+  description: Phone number
+  example: "+34 612 345 678"
+
+ContactEmail:
+  type: string
+  format: email
+  description: Contact email address
+  example: "contact@acme.com"
+
+Description:
+  type: string
+  description: Additional notes or details
+  example: "Additional information"
+
+Address:
+  type: string
+  description: Physical address
+  example: "Calle Mayor 12, Madrid"
+
+ManagerName:
+  type: string
+  description: Name of the responsible manager
+  example: "Carlos Pérez"
+
+ImageUrl:
+  type: string
+  description: URL of an image resource
+  example: ""
+
+# ── Common ───────────────────────────────────────────────────
+UUID:
+  type: string
+  format: uuid
+  example: "550e8400-e29b-41d4-a716-446655440000"
+
+# ── Pagination ───────────────────────────────────────────────
+Page:
+  type: integer
+  description: Current page number (1-based)
+  example: 1
+
+PageSize:
+  type: integer
+  description: Number of items per page
+  example: 20
+
+TotalItems:
+  type: integer
+  description: Total number of items across all pages
+  example: 47
+
+TotalPages:
+  type: integer
+  description: Total number of pages
+  example: 3

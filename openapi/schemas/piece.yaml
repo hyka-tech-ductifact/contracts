@@ -15,10 +15,9 @@ CreatePieceRequest:
     - shape
   properties:
     image_url:
-      type: string
+      $ref: "_fields.yaml#/ImageUrl"
       description: URL of the piece image (will point to MinIO in the future)
       default: ""
-      example: ""
     shape:
       $ref: "#/PieceShape"
 
@@ -27,7 +26,7 @@ UpdatePieceRequest:
   description: Request body for updating a piece. All fields are optional.
   properties:
     image_url:
-      type: string
+      $ref: "_fields.yaml#/ImageUrl"
       description: URL of the piece image
       example: "https://minio.example.com/pieces/abc123.png"
     shape:
@@ -43,21 +42,16 @@ PieceResponse:
     - order_id
   properties:
     id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: Unique piece identifier
-      example: "990e8400-e29b-41d4-a716-446655440000"
     image_url:
-      type: string
+      $ref: "_fields.yaml#/ImageUrl"
       description: URL of the piece image (empty until MinIO integration)
-      example: ""
     shape:
       $ref: "#/PieceShape"
     order_id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: ID of the order this piece belongs to
-      example: "880e8400-e29b-41d4-a716-446655440000"
 
 PaginatedPieceResponse:
   type: object
@@ -74,18 +68,12 @@ PaginatedPieceResponse:
       items:
         $ref: "#/PieceResponse"
     page:
-      type: integer
-      description: Current page number (1-based)
-      example: 1
+      $ref: "_fields.yaml#/Page"
     page_size:
-      type: integer
-      description: Number of items per page
-      example: 20
+      $ref: "_fields.yaml#/PageSize"
     total_items:
-      type: integer
-      description: Total number of items across all pages
+      $ref: "_fields.yaml#/TotalItems"
       example: 8
     total_pages:
-      type: integer
-      description: Total number of pages
+      $ref: "_fields.yaml#/TotalPages"
       example: 1

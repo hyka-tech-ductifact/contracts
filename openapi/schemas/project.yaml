@@ -6,24 +6,19 @@ CreateProjectRequest:
     - name
   properties:
     name:
-      type: string
-      minLength: 1
-      description: The project's name
-      example: "Residential Tower B"
+      $ref: "_fields.yaml#/ProjectName"
     address:
-      type: string
+      $ref: "_fields.yaml#/Address"
       description: Physical address of the project site
-      example: "Calle Mayor 12, Madrid"
     manager_name:
-      type: string
+      $ref: "_fields.yaml#/ManagerName"
       description: Name of the on-site manager
-      example: "Carlos Pérez"
     phone:
-      type: string
+      $ref: "_fields.yaml#/Phone"
       description: Contact phone for the project
       example: "+34 699 111 222"
     description:
-      type: string
+      $ref: "_fields.yaml#/Description"
       description: Additional details about the project
       example: "14-storey residential building, phase 1"
 
@@ -32,24 +27,21 @@ UpdateProjectRequest:
   description: Request body for updating a project. All fields are optional.
   properties:
     name:
-      type: string
-      minLength: 1
+      $ref: "_fields.yaml#/ProjectName"
       description: The project's new name
       example: "Residential Tower B - Phase 2"
     address:
-      type: string
+      $ref: "_fields.yaml#/Address"
       description: Physical address of the project site
-      example: "Calle Mayor 12, Madrid"
     manager_name:
-      type: string
+      $ref: "_fields.yaml#/ManagerName"
       description: Name of the on-site manager
-      example: "Carlos Pérez"
     phone:
-      type: string
+      $ref: "_fields.yaml#/Phone"
       description: Contact phone for the project
       example: "+34 699 111 222"
     description:
-      type: string
+      $ref: "_fields.yaml#/Description"
       description: Additional details about the project
       example: "14-storey residential building, phase 2"
 
@@ -62,35 +54,27 @@ ProjectResponse:
     - client_id
   properties:
     id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: Unique project identifier
-      example: "770e8400-e29b-41d4-a716-446655440000"
     name:
-      type: string
-      description: The project's name
-      example: "Residential Tower B"
+      $ref: "_fields.yaml#/ProjectName"
     address:
-      type: string
+      $ref: "_fields.yaml#/Address"
       description: Physical address of the project site
-      example: "Calle Mayor 12, Madrid"
     manager_name:
-      type: string
+      $ref: "_fields.yaml#/ManagerName"
       description: Name of the on-site manager
-      example: "Carlos Pérez"
     phone:
-      type: string
+      $ref: "_fields.yaml#/Phone"
       description: Contact phone for the project
       example: "+34 699 111 222"
     description:
-      type: string
+      $ref: "_fields.yaml#/Description"
       description: Additional details about the project
       example: "14-storey residential building, phase 1"
     client_id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: ID of the client that owns this project
-      example: "660e8400-e29b-41d4-a716-446655440000"
 
 PaginatedProjectResponse:
   type: object
@@ -107,18 +91,12 @@ PaginatedProjectResponse:
       items:
         $ref: "#/ProjectResponse"
     page:
-      type: integer
-      description: Current page number (1-based)
-      example: 1
+      $ref: "_fields.yaml#/Page"
     page_size:
-      type: integer
-      description: Number of items per page
-      example: 20
+      $ref: "_fields.yaml#/PageSize"
     total_items:
-      type: integer
-      description: Total number of items across all pages
+      $ref: "_fields.yaml#/TotalItems"
       example: 5
     total_pages:
-      type: integer
-      description: Total number of pages
+      $ref: "_fields.yaml#/TotalPages"
       example: 1
