@@ -2,6 +2,7 @@
 RegisterRequest:
   type: object
   description: Request body for registering a new user
+  additionalProperties: false
   required:
     - name
     - email
@@ -26,6 +27,7 @@ RegisterRequest:
 LoginRequest:
   type: object
   description: Request body for logging in
+  additionalProperties: false
   required:
     - email
     - password
@@ -37,6 +39,7 @@ LoginRequest:
       example: "juan@example.com"
     password:
       type: string
+      minLength: 1
       description: The user's password
       example: "securepass123"
 
@@ -62,11 +65,13 @@ AuthResponse:
 RefreshRequest:
   type: object
   description: Request body for refreshing an access token
+  additionalProperties: false
   required:
     - refresh_token
   properties:
     refresh_token:
       type: string
+      minLength: 1
       description: The refresh token obtained from register or login
       example: "eyJhbGciOiJIUzI1NiIs..."
 
@@ -89,11 +94,13 @@ TokenResponse:
 LogoutRequest:
   type: object
   description: Request body for logging out (revoking tokens)
+  additionalProperties: false
   required:
     - refresh_token
   properties:
     refresh_token:
       type: string
+      minLength: 1
       description: The refresh token to revoke
       example: "eyJhbGciOiJIUzI1NiIs..."
 
