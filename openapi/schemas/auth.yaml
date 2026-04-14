@@ -16,6 +16,7 @@ RegisterRequest:
     email:
       type: string
       format: email
+      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
       description: The user's email address (must be unique)
       example: "juan@example.com"
     password:
@@ -35,6 +36,7 @@ LoginRequest:
     email:
       type: string
       format: email
+      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
       description: The user's email address
       example: "juan@example.com"
     password:
