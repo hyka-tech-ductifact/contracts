@@ -1,0 +1,124 @@
+# ─── Project Schemas ─────────────────────────────────────────
+CreateProjectRequest:
+  type: object
+  description: Request body for creating a new project
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      minLength: 1
+      description: The project's name
+      example: "Residential Tower B"
+    address:
+      type: string
+      description: Physical address of the project site
+      example: "Calle Mayor 12, Madrid"
+    manager_name:
+      type: string
+      description: Name of the on-site manager
+      example: "Carlos Pérez"
+    phone:
+      type: string
+      description: Contact phone for the project
+      example: "+34 699 111 222"
+    description:
+      type: string
+      description: Additional details about the project
+      example: "14-storey residential building, phase 1"
+
+UpdateProjectRequest:
+  type: object
+  description: Request body for updating a project. All fields are optional.
+  properties:
+    name:
+      type: string
+      minLength: 1
+      description: The project's new name
+      example: "Residential Tower B - Phase 2"
+    address:
+      type: string
+      description: Physical address of the project site
+      example: "Calle Mayor 12, Madrid"
+    manager_name:
+      type: string
+      description: Name of the on-site manager
+      example: "Carlos Pérez"
+    phone:
+      type: string
+      description: Contact phone for the project
+      example: "+34 699 111 222"
+    description:
+      type: string
+      description: Additional details about the project
+      example: "14-storey residential building, phase 2"
+
+ProjectResponse:
+  type: object
+  description: Project data returned by the API
+  required:
+    - id
+    - name
+    - client_id
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: Unique project identifier
+      example: "770e8400-e29b-41d4-a716-446655440000"
+    name:
+      type: string
+      description: The project's name
+      example: "Residential Tower B"
+    address:
+      type: string
+      description: Physical address of the project site
+      example: "Calle Mayor 12, Madrid"
+    manager_name:
+      type: string
+      description: Name of the on-site manager
+      example: "Carlos Pérez"
+    phone:
+      type: string
+      description: Contact phone for the project
+      example: "+34 699 111 222"
+    description:
+      type: string
+      description: Additional details about the project
+      example: "14-storey residential building, phase 1"
+    client_id:
+      type: string
+      format: uuid
+      description: ID of the client that owns this project
+      example: "660e8400-e29b-41d4-a716-446655440000"
+
+PaginatedProjectResponse:
+  type: object
+  description: Paginated list of projects with navigation metadata
+  required:
+    - data
+    - page
+    - page_size
+    - total_items
+    - total_pages
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/ProjectResponse"
+    page:
+      type: integer
+      description: Current page number (1-based)
+      example: 1
+    page_size:
+      type: integer
+      description: Number of items per page
+      example: 20
+    total_items:
+      type: integer
+      description: Total number of items across all pages
+      example: 5
+    total_pages:
+      type: integer
+      description: Total number of pages
+      example: 1

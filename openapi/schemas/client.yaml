@@ -10,6 +10,19 @@ CreateClientRequest:
       minLength: 1
       description: The client's name
       example: "Acme Corp"
+    phone:
+      type: string
+      description: The client's phone number
+      example: "+34 612 345 678"
+    email:
+      type: string
+      format: email
+      description: The client's contact email
+      example: "contact@acme.com"
+    description:
+      type: string
+      description: Additional notes about the client
+      example: "Main construction partner"
 
 UpdateClientRequest:
   type: object
@@ -20,6 +33,19 @@ UpdateClientRequest:
       minLength: 1
       description: The client's new name
       example: "Acme Corp Updated"
+    phone:
+      type: string
+      description: The client's phone number
+      example: "+34 612 345 678"
+    email:
+      type: string
+      format: email
+      description: The client's contact email
+      example: "contact@acme.com"
+    description:
+      type: string
+      description: Additional notes about the client
+      example: "Main construction partner"
 
 ClientResponse:
   type: object
@@ -38,6 +64,19 @@ ClientResponse:
       type: string
       description: The client's name
       example: "Acme Corp"
+    phone:
+      type: string
+      description: The client's phone number
+      example: "+34 612 345 678"
+    email:
+      type: string
+      format: email
+      description: The client's contact email
+      example: "contact@acme.com"
+    description:
+      type: string
+      description: Additional notes about the client
+      example: "Main construction partner"
     user_id:
       type: string
       format: uuid

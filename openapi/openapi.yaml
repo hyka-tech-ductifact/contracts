@@ -41,6 +41,21 @@ paths:
   /users/me/clients/{client_id}:
     $ref: "paths/clients.yaml#/item"
 
+  /users/me/clients/{client_id}/projects:
+    $ref: "paths/projects.yaml#/collection"
+  /users/me/clients/{client_id}/projects/{project_id}:
+    $ref: "paths/projects.yaml#/item"
+
+  /users/me/clients/{client_id}/projects/{project_id}/orders:
+    $ref: "paths/orders.yaml#/collection"
+  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}:
+    $ref: "paths/orders.yaml#/item"
+
+  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces:
+    $ref: "paths/pieces.yaml#/collection"
+  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces/{piece_id}:
+    $ref: "paths/pieces.yaml#/item"
+
 # ─── Components ───────────────────────────────────────────────
 components:
   securitySchemes:
@@ -82,6 +97,40 @@ components:
       $ref: "schemas/client.yaml#/UpdateClientRequest"
     PaginatedClientResponse:
       $ref: "schemas/client.yaml#/PaginatedClientResponse"
+
+    # Project
+    ProjectResponse:
+      $ref: "schemas/project.yaml#/ProjectResponse"
+    CreateProjectRequest:
+      $ref: "schemas/project.yaml#/CreateProjectRequest"
+    UpdateProjectRequest:
+      $ref: "schemas/project.yaml#/UpdateProjectRequest"
+    PaginatedProjectResponse:
+      $ref: "schemas/project.yaml#/PaginatedProjectResponse"
+
+    # Order
+    OrderResponse:
+      $ref: "schemas/order.yaml#/OrderResponse"
+    CreateOrderRequest:
+      $ref: "schemas/order.yaml#/CreateOrderRequest"
+    UpdateOrderRequest:
+      $ref: "schemas/order.yaml#/UpdateOrderRequest"
+    PaginatedOrderResponse:
+      $ref: "schemas/order.yaml#/PaginatedOrderResponse"
+    OrderStatus:
+      $ref: "schemas/order.yaml#/OrderStatus"
+
+    # Piece
+    PieceResponse:
+      $ref: "schemas/piece.yaml#/PieceResponse"
+    CreatePieceRequest:
+      $ref: "schemas/piece.yaml#/CreatePieceRequest"
+    UpdatePieceRequest:
+      $ref: "schemas/piece.yaml#/UpdatePieceRequest"
+    PaginatedPieceResponse:
+      $ref: "schemas/piece.yaml#/PaginatedPieceResponse"
+    PieceShape:
+      $ref: "schemas/piece.yaml#/PieceShape"
 
     # Health
     HealthResponse:

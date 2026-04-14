@@ -1,0 +1,91 @@
+# ─── Order Schemas ───────────────────────────────────────────
+OrderStatus:
+  type: string
+  description: Whether the order has been completed
+  enum:
+    - pending
+    - completed
+  example: "pending"
+
+CreateOrderRequest:
+  type: object
+  description: Request body for creating a new order
+  required:
+    - title
+  properties:
+    title:
+      type: string
+      minLength: 1
+      description: Title of the order
+      example: "Steel beams – lot 3"
+    status:
+      $ref: "#/OrderStatus"
+
+UpdateOrderRequest:
+  type: object
+  description: Request body for updating an order. All fields are optional.
+  properties:
+    title:
+      type: string
+      minLength: 1
+      description: Title of the order
+      example: "Steel beams – lot 3 (revised)"
+    status:
+      $ref: "#/OrderStatus"
+
+OrderResponse:
+  type: object
+  description: Order data returned by the API
+  required:
+    - id
+    - title
+    - status
+    - project_id
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: Unique order identifier
+      example: "880e8400-e29b-41d4-a716-446655440000"
+    title:
+      type: string
+      description: Title of the order
+      example: "Steel beams – lot 3"
+    status:
+      $ref: "#/OrderStatus"
+    project_id:
+      type: string
+      format: uuid
+      description: ID of the project this order belongs to
+      example: "770e8400-e29b-41d4-a716-446655440000"
+
+PaginatedOrderResponse:
+  type: object
+  description: Paginated list of orders with navigation metadata
+  required:
+    - data
+    - page
+    - page_size
+    - total_items
+    - total_pages
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/OrderResponse"
+    page:
+      type: integer
+      description: Current page number (1-based)
+      example: 1
+    page_size:
+      type: integer
+      description: Number of items per page
+      example: 20
+    total_items:
+      type: integer
+      description: Total number of items across all pages
+      example: 12
+    total_pages:
+      type: integer
+      description: Total number of pages
+      example: 1

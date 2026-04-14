@@ -1,6 +1,6 @@
 # Ductifact Contracts Makefile
 
-.PHONY: help validate bundle breaking start stop validate-branch
+.PHONY: help validate bundle breaking start stop clean
 
 SPEC         := openapi/openapi.yaml
 BUNDLED      := openapi/bundled.yaml
@@ -22,8 +22,8 @@ help:
 	@echo "                       make start SWAGGER_PORT=9090"
 	@echo "    stop             - Stop Swagger UI"
 	@echo ""
-	@echo "  CI:"
-	@echo "    validate-branch  - Validate branch name (requires BRANCH env var)"
+	@echo "  Maintenance:"
+	@echo "    clean            - Remove all untracked/ignored files (git clean)"
 
 # ─── Spec ────────────────────────────────────────────────────
 
@@ -62,17 +62,11 @@ start: bundle
 stop:
 	@docker stop swagger-ui 2>/dev/null || echo "Swagger UI is not running"
 
-# ─── CI ──────────────────────────────────────────────────────
+# ─── Maintenance ─────────────────────────────────────────────
 
-# Validate branch name (used in CI). Requires BRANCH env var.
-validate-branch:
-	@PATTERN='^(feat|fix|docs|chore)/.+$$'; \
-	if [ -z "$$BRANCH" ]; then \
-		echo "❌ BRANCH env var is required"; exit 1; \
-	fi; \
-	if ! echo "$$BRANCH" | grep -qE "$$PATTERN"; then \
-		echo "❌ Branch '$$BRANCH' does not match: $$PATTERN"; \
-		echo "   Expected: feat/*, fix/*, docs/*, chore/*"; \
-		exit 1; \
-	fi; \
-	echo "✅ Branch '$$BRANCH' is valid"
+# Clean all untracked and ignored files.
+	@echo "Cleaning all generated files..."
+	@git clean -fdx
+	@echo "✅ Cleanup completed!"
+
+
