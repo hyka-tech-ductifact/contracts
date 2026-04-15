@@ -1,54 +1,63 @@
 # ─── Piece Schemas ───────────────────────────────────────────
-PieceShape:
-  type: string
-  description: Geometric shape of the piece
-  enum:
-    - rectangular
-    - circular
-    - triangular
-  example: "rectangular"
 
 CreatePieceRequest:
   type: object
-  description: Request body for creating a new piece
+  description: Request body for creating a new piece (order line)
   required:
-    - shape
+    - title
+    - definition_id
+    - dimensions
+    - quantity
   properties:
-    image_url:
-      $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece image (will point to MinIO in the future)
-      default: ""
-    shape:
-      $ref: "#/PieceShape"
+    title:
+      $ref: "_fields.yaml#/PieceTitle"
+    definition_id:
+      $ref: "_fields.yaml#/UUID"
+      description: ID of the piece definition (shape template)
+    dimensions:
+      $ref: "_fields.yaml#/Dimensions"
+    quantity:
+      $ref: "_fields.yaml#/Quantity"
 
 UpdatePieceRequest:
   type: object
   description: Request body for updating a piece. All fields are optional.
   properties:
-    image_url:
-      $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece image
-      example: "https://minio.example.com/pieces/abc123.png"
-    shape:
-      $ref: "#/PieceShape"
+    title:
+      $ref: "_fields.yaml#/PieceTitle"
+      example: "Side panel (revised)"
+    dimensions:
+      $ref: "_fields.yaml#/Dimensions"
+      example:
+        a: 200.0
+        b: 100.0
+    quantity:
+      $ref: "_fields.yaml#/Quantity"
+      example: 20
 
 PieceResponse:
   type: object
   description: Piece data returned by the API
   required:
     - id
-    - image_url
-    - shape
+    - title
+    - definition_id
+    - dimensions
+    - quantity
     - order_id
   properties:
     id:
       $ref: "_fields.yaml#/UUID"
       description: Unique piece identifier
-    image_url:
-      $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece image (empty until MinIO integration)
-    shape:
-      $ref: "#/PieceShape"
+    title:
+      $ref: "_fields.yaml#/PieceTitle"
+    definition_id:
+      $ref: "_fields.yaml#/UUID"
+      description: ID of the piece definition used
+    dimensions:
+      $ref: "_fields.yaml#/Dimensions"
+    quantity:
+      $ref: "_fields.yaml#/Quantity"
     order_id:
       $ref: "_fields.yaml#/UUID"
       description: ID of the order this piece belongs to

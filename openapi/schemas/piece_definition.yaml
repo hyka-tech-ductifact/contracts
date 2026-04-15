@@ -1,0 +1,115 @@
+# ─── Piece Definition Schemas ────────────────────────────────
+
+DimensionField:
+  type: object
+  description: A single measurement that a piece requires
+  required:
+    - key
+    - label
+  properties:
+    key:
+      type: string
+      minLength: 1
+      description: Unique identifier within the definition
+      example: "a"
+    label:
+      type: string
+      minLength: 1
+      description: Human-readable name for the dimension
+      example: "Length"
+    unit:
+      type: string
+      description: Measurement unit
+      example: "mm"
+
+CreatePieceDefinitionRequest:
+  type: object
+  description: Request body for creating a new piece definition
+  required:
+    - name
+    - dimension_schema
+  properties:
+    name:
+      $ref: "_fields.yaml#/PieceDefinitionName"
+    image_url:
+      $ref: "_fields.yaml#/ImageUrl"
+      description: URL of the piece definition image
+    dimension_schema:
+      type: array
+      minItems: 1
+      maxItems: 10
+      items:
+        $ref: "#/DimensionField"
+      description: List of dimensions this piece type requires
+
+UpdatePieceDefinitionRequest:
+  type: object
+  description: Request body for updating a piece definition. All fields are optional.
+  properties:
+    name:
+      $ref: "_fields.yaml#/PieceDefinitionName"
+      example: "Custom L-Shape (revised)"
+    image_url:
+      $ref: "_fields.yaml#/ImageUrl"
+      description: URL of the piece definition image
+    dimension_schema:
+      type: array
+      minItems: 1
+      maxItems: 10
+      items:
+        $ref: "#/DimensionField"
+      description: Updated list of dimensions
+
+PieceDefinitionResponse:
+  type: object
+  description: Piece definition data returned by the API
+  required:
+    - id
+    - name
+    - image_url
+    - dimension_schema
+    - predefined
+  properties:
+    id:
+      $ref: "_fields.yaml#/UUID"
+      description: Unique piece definition identifier
+    name:
+      $ref: "_fields.yaml#/PieceDefinitionName"
+      example: "Rectangular"
+    image_url:
+      $ref: "_fields.yaml#/ImageUrl"
+      description: URL of the piece definition image
+    dimension_schema:
+      type: array
+      items:
+        $ref: "#/DimensionField"
+      description: Dimensions this piece type requires
+    predefined:
+      type: boolean
+      description: Whether this is a system-defined piece type
+      example: true
+
+PaginatedPieceDefinitionResponse:
+  type: object
+  description: Paginated list of piece definitions with navigation metadata
+  required:
+    - data
+    - page
+    - page_size
+    - total_items
+    - total_pages
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/PieceDefinitionResponse"
+    page:
+      $ref: "_fields.yaml#/Page"
+    page_size:
+      $ref: "_fields.yaml#/PageSize"
+    total_items:
+      $ref: "_fields.yaml#/TotalItems"
+      example: 6
+    total_pages:
+      $ref: "_fields.yaml#/TotalPages"
+      example: 1

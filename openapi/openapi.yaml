@@ -52,6 +52,11 @@ paths:
   /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}:
     $ref: "paths/orders.yaml#/item"
 
+  /users/me/piece-definitions:
+    $ref: "paths/piece_definitions.yaml#/collection"
+  /users/me/piece-definitions/{piece_definition_id}:
+    $ref: "paths/piece_definitions.yaml#/item"
+
   /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces:
     $ref: "paths/pieces.yaml#/collection"
   /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces/{piece_id}:
@@ -121,6 +126,18 @@ components:
     OrderStatus:
       $ref: "schemas/order.yaml#/OrderStatus"
 
+    # Piece Definition
+    PieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PieceDefinitionResponse"
+    CreatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
+    UpdatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
+    PaginatedPieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
+    DimensionField:
+      $ref: "schemas/piece_definition.yaml#/DimensionField"
+
     # Piece
     PieceResponse:
       $ref: "schemas/piece.yaml#/PieceResponse"
@@ -130,8 +147,6 @@ components:
       $ref: "schemas/piece.yaml#/UpdatePieceRequest"
     PaginatedPieceResponse:
       $ref: "schemas/piece.yaml#/PaginatedPieceResponse"
-    PieceShape:
-      $ref: "schemas/piece.yaml#/PieceShape"
 
     # Health
     HealthResponse:

@@ -38,8 +38,12 @@ collection:
           schema:
             $ref: "../schemas/piece.yaml#/CreatePieceRequest"
           example:
-            shape: "rectangular"
-            image_url: ""
+            title: "Side panel"
+            definition_id: "a0000000-0000-0000-0000-000000000001"
+            dimensions:
+              a: 150.5
+              b: 80.0
+            quantity: 15
     responses:
       "201":
         description: Piece created successfully
@@ -241,7 +245,11 @@ item:
           schema:
             $ref: "../schemas/piece.yaml#/UpdatePieceRequest"
           example:
-            image_url: "https://minio.example.com/pieces/abc123.png"
+            title: "Side panel (revised)"
+            dimensions:
+              a: 200.0
+              b: 100.0
+            quantity: 20
     responses:
       "200":
         description: Piece updated successfully

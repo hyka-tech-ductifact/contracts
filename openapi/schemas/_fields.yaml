@@ -84,6 +84,33 @@ ImageUrl:
   description: URL of an image resource
   example: ""
 
+PieceTitle:
+  type: string
+  minLength: 1
+  description: Title of the piece
+  example: "Side panel"
+
+PieceDefinitionName:
+  type: string
+  minLength: 1
+  description: Name of the piece definition
+  example: "Custom L-Shape"
+
+Quantity:
+  type: integer
+  minimum: 1
+  description: Number of items
+  example: 15
+
+Dimensions:
+  type: object
+  additionalProperties:
+    type: number
+  description: Dimension values keyed by dimension key (must match the definition schema)
+  example:
+    a: 150.5
+    b: 80.0
+
 # ── Common ───────────────────────────────────────────────────
 UUID:
   type: string
