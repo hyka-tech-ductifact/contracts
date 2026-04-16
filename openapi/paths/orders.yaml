@@ -1,6 +1,6 @@
 # ─── Order Endpoints ──────────────────────────────────────────
 
-# POST + GET /users/me/clients/{client_id}/projects/{project_id}/orders
+# POST + GET /projects/{project_id}/orders
 collection:
   post:
     summary: Create a new order for a project
@@ -10,13 +10,6 @@ collection:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
       - name: project_id
         in: path
         required: true
@@ -52,7 +45,7 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client or project not found
+        description: Project not found
         content:
           application/json:
             schema:
@@ -66,13 +59,6 @@ collection:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
       - name: project_id
         in: path
         required: true
@@ -113,13 +99,13 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client or project not found
+        description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}
+# GET/PUT/DELETE /orders/{order_id}
 item:
   get:
     summary: Get an order by ID
@@ -129,20 +115,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -170,7 +142,7 @@ item:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Resource not found
+        description: Order not found
         content:
           application/json:
             schema:
@@ -184,20 +156,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -233,7 +191,7 @@ item:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Resource not found
+        description: Order not found
         content:
           application/json:
             schema:
@@ -247,20 +205,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -284,7 +228,7 @@ item:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Resource not found
+        description: Order not found
         content:
           application/json:
             schema:

@@ -1,6 +1,6 @@
 # ─── Piece Definition Endpoints ───────────────────────────────
 
-# POST + GET /users/me/piece-definitions
+# POST + GET /piece-definitions
 collection:
   post:
     summary: Create a new custom piece definition
@@ -82,7 +82,7 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /users/me/piece-definitions/{piece_definition_id}
+# GET/PUT/DELETE /piece-definitions/{piece_definition_id}
 item:
   get:
     summary: Get a piece definition by ID

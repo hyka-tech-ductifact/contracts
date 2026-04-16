@@ -1,6 +1,6 @@
 # ─── Client Endpoints ────────────────────────────────────────
 
-# POST /users/me/clients + GET /users/me/clients
+# POST /clients + GET /clients
 collection:
   post:
     summary: Create a new client
@@ -78,7 +78,7 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /users/me/clients/{client_id}
+# GET/PUT/DELETE /clients/{client_id}
 item:
   get:
     summary: Get a client by ID

@@ -37,30 +37,30 @@ paths:
   /users/me:
     $ref: "paths/users.yaml#/me"
 
-  /users/me/clients:
+  /clients:
     $ref: "paths/clients.yaml#/collection"
-  /users/me/clients/{client_id}:
+  /clients/{client_id}:
     $ref: "paths/clients.yaml#/item"
 
-  /users/me/clients/{client_id}/projects:
+  /clients/{client_id}/projects:
     $ref: "paths/projects.yaml#/collection"
-  /users/me/clients/{client_id}/projects/{project_id}:
+  /projects/{project_id}:
     $ref: "paths/projects.yaml#/item"
 
-  /users/me/clients/{client_id}/projects/{project_id}/orders:
+  /projects/{project_id}/orders:
     $ref: "paths/orders.yaml#/collection"
-  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}:
+  /orders/{order_id}:
     $ref: "paths/orders.yaml#/item"
 
-  /users/me/piece-definitions:
-    $ref: "paths/piece_definitions.yaml#/collection"
-  /users/me/piece-definitions/{piece_definition_id}:
-    $ref: "paths/piece_definitions.yaml#/item"
-
-  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces:
+  /orders/{order_id}/pieces:
     $ref: "paths/pieces.yaml#/collection"
-  /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces/{piece_id}:
+  /orders/{order_id}/pieces/{piece_id}:
     $ref: "paths/pieces.yaml#/item"
+
+  /piece-definitions:
+    $ref: "paths/piece_definitions.yaml#/collection"
+  /piece-definitions/{piece_definition_id}:
+    $ref: "paths/piece_definitions.yaml#/item"
 
 # ─── Components ───────────────────────────────────────────────
 components:

@@ -1,6 +1,6 @@
 # ─── Piece Endpoints ──────────────────────────────────────────
 
-# POST + GET /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces
+# POST + GET /orders/{order_id}/pieces
 collection:
   post:
     summary: Create a new piece for an order
@@ -10,20 +10,6 @@ collection:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -64,7 +50,7 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Parent resource not found
+        description: Order not found
         content:
           application/json:
             schema:
@@ -78,20 +64,6 @@ collection:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -132,13 +104,13 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Parent resource not found
+        description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /users/me/clients/{client_id}/projects/{project_id}/orders/{order_id}/pieces/{piece_id}
+# GET/PUT/DELETE /orders/{order_id}/pieces/{piece_id}
 item:
   get:
     summary: Get a piece by ID
@@ -148,20 +120,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -210,20 +168,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
@@ -284,20 +228,6 @@ item:
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
       - name: order_id
         in: path
         required: true
