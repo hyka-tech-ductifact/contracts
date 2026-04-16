@@ -16,7 +16,9 @@ RefreshToken:
 
 Password:
   type: string
-  description: User password
+  minLength: 8
+  maxLength: 72
+  description: User password (8–72 bytes; bcrypt limit)
   example: "securepass123"
 
 # ── User fields ──────────────────────────────────────────────
