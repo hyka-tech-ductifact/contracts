@@ -29,8 +29,8 @@ UpdatePieceRequest:
     dimensions:
       $ref: "_fields.yaml#/Dimensions"
       example:
-        a: 200.0
-        b: 100.0
+        Length: 200.0
+        Width: 100.0
     quantity:
       $ref: "_fields.yaml#/Quantity"
       example: 20

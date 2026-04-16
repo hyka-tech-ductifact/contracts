@@ -135,8 +135,6 @@ components:
       $ref: "schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
     PaginatedPieceDefinitionResponse:
       $ref: "schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
-    DimensionField:
-      $ref: "schemas/piece_definition.yaml#/DimensionField"
 
     # Piece
     PieceResponse:

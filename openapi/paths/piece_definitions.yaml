@@ -19,12 +19,8 @@ collection:
             name: "Custom L-Shape"
             image_url: ""
             dimension_schema:
-              - key: "a"
-                label: "Length"
-                unit: "mm"
-              - key: "b"
-                label: "Width"
-                unit: "mm"
+              - "Length"
+              - "Width"
     responses:
       "201":
         description: Piece definition created successfully

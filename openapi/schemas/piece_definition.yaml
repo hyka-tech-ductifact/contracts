@@ -1,27 +1,5 @@
 # ─── Piece Definition Schemas ────────────────────────────────
 
-DimensionField:
-  type: object
-  description: A single measurement that a piece requires
-  required:
-    - key
-    - label
-  properties:
-    key:
-      type: string
-      minLength: 1
-      description: Unique identifier within the definition
-      example: "a"
-    label:
-      type: string
-      minLength: 1
-      description: Human-readable name for the dimension
-      example: "Length"
-    unit:
-      type: string
-      description: Measurement unit
-      example: "mm"
-
 CreatePieceDefinitionRequest:
   type: object
   description: Request body for creating a new piece definition
@@ -39,8 +17,12 @@ CreatePieceDefinitionRequest:
       minItems: 1
       maxItems: 10
       items:
-        $ref: "#/DimensionField"
-      description: List of dimensions this piece type requires
+        type: string
+        minLength: 1
+      description: List of dimension labels this piece type requires
+      example:
+        - "Length"
+        - "Width"
 
 UpdatePieceDefinitionRequest:
   type: object
@@ -57,8 +39,9 @@ UpdatePieceDefinitionRequest:
       minItems: 1
       maxItems: 10
       items:
-        $ref: "#/DimensionField"
-      description: Updated list of dimensions
+        type: string
+        minLength: 1
+      description: Updated list of dimension labels
 
 PieceDefinitionResponse:
   type: object
@@ -82,8 +65,11 @@ PieceDefinitionResponse:
     dimension_schema:
       type: array
       items:
-        $ref: "#/DimensionField"
-      description: Dimensions this piece type requires
+        type: string
+      description: Dimension labels this piece type requires
+      example:
+        - "Length"
+        - "Width"
     predefined:
       type: boolean
       description: Whether this is a system-defined piece type

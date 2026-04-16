@@ -41,8 +41,8 @@ collection:
             title: "Side panel"
             definition_id: "a0000000-0000-0000-0000-000000000001"
             dimensions:
-              a: 150.5
-              b: 80.0
+              Length: 150.5
+              Width: 80.0
             quantity: 15
     responses:
       "201":
@@ -247,8 +247,8 @@ item:
           example:
             title: "Side panel (revised)"
             dimensions:
-              a: 200.0
-              b: 100.0
+              Length: 200.0
+              Width: 100.0
             quantity: 20
     responses:
       "200":

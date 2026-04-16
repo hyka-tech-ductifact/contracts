@@ -106,10 +106,10 @@ Dimensions:
   type: object
   additionalProperties:
     type: number
-  description: Dimension values keyed by dimension key (must match the definition schema)
+  description: Dimension values keyed by dimension label (must match the definition schema)
   example:
-    a: 150.5
-    b: 80.0
+    Length: 150.5
+    Width: 80.0
 
 # ── Common ───────────────────────────────────────────────────
 UUID:
