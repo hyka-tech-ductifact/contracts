@@ -1,31 +1,43 @@
-# ─── Client Endpoints ────────────────────────────────────────
+# ─── Project Endpoints ────────────────────────────────────────
 
-# POST /clients + GET /clients
+# POST + GET /clients/{client_id}/projects
 collection:
   post:
-    summary: Create a new client
-    operationId: createClient
+    summary: Create a new project for a client
+    operationId: createProject
     tags:
-      - Clients
+      - Projects
     security:
       - bearerAuth: []
+    parameters:
+      - name: client_id
+        in: path
+        required: true
+        description: The client's UUID
+        schema:
+          type: string
+          format: uuid
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/CreateClientRequest"
+            $ref: "../schemas/project.yaml#/CreateProjectRequest"
           example:
-            name: "Acme Corp"
+            name: "Residential Tower B"
+            address: "Calle Mayor 12, Madrid"
+            manager_name: "Carlos Pérez"
+            phone: "+34 699 111 222"
+            description: "14-storey residential building, phase 1"
     responses:
       "201":
-        description: Client created successfully
+        description: Project created successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/project.yaml#/ProjectResponse"
       "400":
-        description: Invalid request body (missing or empty name)
+        description: Invalid request body
         content:
           application/json:
             schema:
@@ -36,15 +48,28 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+      "404":
+        description: Client not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
 
   get:
-    summary: List all clients for the authenticated user
-    operationId: listClients
+    summary: List all projects for a client
+    operationId: listProjects
     tags:
-      - Clients
+      - Projects
     security:
       - bearerAuth: []
     parameters:
+      - name: client_id
+        in: path
+        required: true
+        description: The client's UUID
+        schema:
+          type: string
+          format: uuid
       - name: page
         in: query
         required: false
@@ -66,85 +91,79 @@ collection:
           example: 20
     responses:
       "200":
-        description: Paginated list of clients
+        description: Paginated list of projects
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/PaginatedClientResponse"
+              $ref: "../schemas/project.yaml#/PaginatedProjectResponse"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-
-# GET/PUT/DELETE /clients/{client_id}
-item:
-  get:
-    summary: Get a client by ID
-    operationId: getClient
-    tags:
-      - Clients
-    security:
-      - bearerAuth: []
-    parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-    responses:
-      "200":
-        description: Client found
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
-      "400":
-        description: Invalid client ID format
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid client ID format"
-      "401":
-        description: Missing or invalid token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client does not belong to this user"
       "404":
         description: Client not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client not found"
 
-  put:
-    summary: Update a client
-    operationId: updateClient
+# GET/PUT/DELETE /projects/{project_id}
+item:
+  get:
+    summary: Get a project by ID
+    operationId: getProject
     tags:
-      - Clients
+      - Projects
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: project_id
         in: path
         required: true
-        description: The client's UUID
+        description: The project's UUID
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Project found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/project.yaml#/ProjectResponse"
+      "400":
+        description: Invalid ID format
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "404":
+        description: Project not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+
+  put:
+    summary: Update a project
+    operationId: updateProject
+    tags:
+      - Projects
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: project_id
+        in: path
+        required: true
+        description: The project's UUID
         schema:
           type: string
           format: uuid
@@ -153,18 +172,18 @@ item:
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/UpdateClientRequest"
+            $ref: "../schemas/project.yaml#/UpdateProjectRequest"
           example:
-            name: "Acme Corp Updated"
+            name: "Residential Tower B - Phase 2"
     responses:
       "200":
-        description: Client updated successfully
+        description: Project updated successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/project.yaml#/ProjectResponse"
       "400":
-        description: Invalid request body or client ID format
+        description: Invalid request body or ID format
         content:
           application/json:
             schema:
@@ -175,39 +194,33 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
   delete:
-    summary: Delete a client
-    operationId: deleteClient
+    summary: Delete a project
+    operationId: deleteProject
     tags:
-      - Clients
+      - Projects
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: project_id
         in: path
         required: true
-        description: The client's UUID
+        description: The project's UUID
         schema:
           type: string
           format: uuid
     responses:
       "204":
-        description: Client deleted successfully
+        description: Project deleted successfully
       "400":
-        description: Invalid client ID format
+        description: Invalid ID format
         content:
           application/json:
             schema:
@@ -218,14 +231,8 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Project not found
         content:
           application/json:
             schema:

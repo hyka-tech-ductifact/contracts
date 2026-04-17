@@ -1,10 +1,11 @@
-openapi: 3.0.3
+openapi: 3.1.1
 info:
   title: Ductifact API
   description: Backend API for Ductifact platform
   version: 0.0.0 # Replaced automatically by CI on release
   license:
     name: CC BY-NC 4.0
+    identifier: CC-BY-NC-4.0
     url: https://creativecommons.org/licenses/by-nc/4.0/
 
 servers:
@@ -36,10 +37,30 @@ paths:
   /users/me:
     $ref: "paths/users.yaml#/me"
 
-  /users/me/clients:
+  /clients:
     $ref: "paths/clients.yaml#/collection"
-  /users/me/clients/{client_id}:
+  /clients/{client_id}:
     $ref: "paths/clients.yaml#/item"
+
+  /clients/{client_id}/projects:
+    $ref: "paths/projects.yaml#/collection"
+  /projects/{project_id}:
+    $ref: "paths/projects.yaml#/item"
+
+  /projects/{project_id}/orders:
+    $ref: "paths/orders.yaml#/collection"
+  /orders/{order_id}:
+    $ref: "paths/orders.yaml#/item"
+
+  /orders/{order_id}/pieces:
+    $ref: "paths/pieces.yaml#/collection"
+  /orders/{order_id}/pieces/{piece_id}:
+    $ref: "paths/pieces.yaml#/item"
+
+  /piece-definitions:
+    $ref: "paths/piece_definitions.yaml#/collection"
+  /piece-definitions/{piece_definition_id}:
+    $ref: "paths/piece_definitions.yaml#/item"
 
 # ─── Components ───────────────────────────────────────────────
 components:
@@ -82,6 +103,48 @@ components:
       $ref: "schemas/client.yaml#/UpdateClientRequest"
     PaginatedClientResponse:
       $ref: "schemas/client.yaml#/PaginatedClientResponse"
+
+    # Project
+    ProjectResponse:
+      $ref: "schemas/project.yaml#/ProjectResponse"
+    CreateProjectRequest:
+      $ref: "schemas/project.yaml#/CreateProjectRequest"
+    UpdateProjectRequest:
+      $ref: "schemas/project.yaml#/UpdateProjectRequest"
+    PaginatedProjectResponse:
+      $ref: "schemas/project.yaml#/PaginatedProjectResponse"
+
+    # Order
+    OrderResponse:
+      $ref: "schemas/order.yaml#/OrderResponse"
+    CreateOrderRequest:
+      $ref: "schemas/order.yaml#/CreateOrderRequest"
+    UpdateOrderRequest:
+      $ref: "schemas/order.yaml#/UpdateOrderRequest"
+    PaginatedOrderResponse:
+      $ref: "schemas/order.yaml#/PaginatedOrderResponse"
+    OrderStatus:
+      $ref: "schemas/order.yaml#/OrderStatus"
+
+    # Piece Definition
+    PieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PieceDefinitionResponse"
+    CreatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
+    UpdatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
+    PaginatedPieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
+
+    # Piece
+    PieceResponse:
+      $ref: "schemas/piece.yaml#/PieceResponse"
+    CreatePieceRequest:
+      $ref: "schemas/piece.yaml#/CreatePieceRequest"
+    UpdatePieceRequest:
+      $ref: "schemas/piece.yaml#/UpdatePieceRequest"
+    PaginatedPieceResponse:
+      $ref: "schemas/piece.yaml#/PaginatedPieceResponse"
 
     # Health
     HealthResponse:

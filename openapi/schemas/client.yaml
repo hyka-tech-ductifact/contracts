@@ -6,20 +6,34 @@ CreateClientRequest:
     - name
   properties:
     name:
-      type: string
-      minLength: 1
-      description: The client's name
-      example: "Acme Corp"
+      $ref: "_fields.yaml#/ClientName"
+    phone:
+      $ref: "_fields.yaml#/Phone"
+      description: The client's phone number
+    email:
+      $ref: "_fields.yaml#/ContactEmail"
+      description: The client's contact email
+    description:
+      $ref: "_fields.yaml#/Description"
+      description: Additional notes about the client
+      example: "Main construction partner"
 
 UpdateClientRequest:
   type: object
   description: Request body for updating a client. All fields are optional.
   properties:
     name:
-      type: string
-      minLength: 1
-      description: The client's new name
-      example: "Acme Corp Updated"
+      $ref: "_fields.yaml#/ClientName"
+    phone:
+      $ref: "_fields.yaml#/Phone"
+      description: The client's phone number
+    email:
+      $ref: "_fields.yaml#/ContactEmail"
+      description: The client's contact email
+    description:
+      $ref: "_fields.yaml#/Description"
+      description: Additional notes about the client
+      example: "Main construction partner"
 
 ClientResponse:
   type: object
@@ -30,19 +44,23 @@ ClientResponse:
     - user_id
   properties:
     id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: Unique client identifier
-      example: "660e8400-e29b-41d4-a716-446655440000"
     name:
-      type: string
-      description: The client's name
-      example: "Acme Corp"
+      $ref: "_fields.yaml#/ClientName"
+    phone:
+      $ref: "_fields.yaml#/Phone"
+      description: The client's phone number
+    email:
+      $ref: "_fields.yaml#/ContactEmail"
+      description: The client's contact email
+    description:
+      $ref: "_fields.yaml#/Description"
+      description: Additional notes about the client
+      example: "Main construction partner"
     user_id:
-      type: string
-      format: uuid
+      $ref: "_fields.yaml#/UUID"
       description: ID of the user who owns this client
-      example: "550e8400-e29b-41d4-a716-446655440000"
 
 PaginatedClientResponse:
   type: object
@@ -59,18 +77,10 @@ PaginatedClientResponse:
       items:
         $ref: "#/ClientResponse"
     page:
-      type: integer
-      description: Current page number (1-based)
-      example: 1
+      $ref: "_fields.yaml#/Page"
     page_size:
-      type: integer
-      description: Number of items per page
-      example: 20
+      $ref: "_fields.yaml#/PageSize"
     total_items:
-      type: integer
-      description: Total number of items across all pages
-      example: 47
+      $ref: "_fields.yaml#/TotalItems"
     total_pages:
-      type: integer
-      description: Total number of pages
-      example: 3
+      $ref: "_fields.yaml#/TotalPages"

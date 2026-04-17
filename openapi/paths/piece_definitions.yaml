@@ -1,12 +1,12 @@
-# ─── Client Endpoints ────────────────────────────────────────
+# ─── Piece Definition Endpoints ───────────────────────────────
 
-# POST /clients + GET /clients
+# POST + GET /piece-definitions
 collection:
   post:
-    summary: Create a new client
-    operationId: createClient
+    summary: Create a new custom piece definition
+    operationId: createPieceDefinition
     tags:
-      - Clients
+      - Piece Definitions
     security:
       - bearerAuth: []
     requestBody:
@@ -14,18 +14,22 @@ collection:
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/CreateClientRequest"
+            $ref: "../schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
           example:
-            name: "Acme Corp"
+            name: "Custom L-Shape"
+            image_url: ""
+            dimension_schema:
+              - "Length"
+              - "Width"
     responses:
       "201":
-        description: Client created successfully
+        description: Piece definition created successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body (missing or empty name)
+        description: Invalid request body
         content:
           application/json:
             schema:
@@ -38,10 +42,10 @@ collection:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
   get:
-    summary: List all clients for the authenticated user
-    operationId: listClients
+    summary: List all piece definitions (predefined + user's custom)
+    operationId: listPieceDefinitions
     tags:
-      - Clients
+      - Piece Definitions
     security:
       - bearerAuth: []
     parameters:
@@ -66,11 +70,11 @@ collection:
           example: 20
     responses:
       "200":
-        description: Paginated list of clients
+        description: Paginated list of piece definitions
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/PaginatedClientResponse"
+              $ref: "../schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
       "401":
         description: Missing or invalid token
         content:
@@ -78,73 +82,61 @@ collection:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /clients/{client_id}
+# GET/PUT/DELETE /piece-definitions/{piece_definition_id}
 item:
   get:
-    summary: Get a client by ID
-    operationId: getClient
+    summary: Get a piece definition by ID
+    operationId: getPieceDefinition
     tags:
-      - Clients
+      - Piece Definitions
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: piece_definition_id
         in: path
         required: true
-        description: The client's UUID
+        description: The piece definition's UUID
         schema:
           type: string
           format: uuid
     responses:
       "200":
-        description: Client found
+        description: Piece definition found
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid client ID format
+        description: Invalid ID format
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid client ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client does not belong to this user"
       "404":
-        description: Client not found
+        description: Piece definition not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client not found"
 
   put:
-    summary: Update a client
-    operationId: updateClient
+    summary: Update a custom piece definition
+    operationId: updatePieceDefinition
     tags:
-      - Clients
+      - Piece Definitions
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: piece_definition_id
         in: path
         required: true
-        description: The client's UUID
+        description: The piece definition's UUID
         schema:
           type: string
           format: uuid
@@ -153,18 +145,18 @@ item:
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/UpdateClientRequest"
+            $ref: "../schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
           example:
-            name: "Acme Corp Updated"
+            name: "Custom L-Shape (revised)"
     responses:
       "200":
-        description: Client updated successfully
+        description: Piece definition updated successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body or client ID format
+        description: Invalid request body or ID format
         content:
           application/json:
             schema:
@@ -176,38 +168,38 @@ item:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "403":
-        description: Client does not belong to this user
+        description: Cannot modify predefined piece definition
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Piece definition not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
   delete:
-    summary: Delete a client
-    operationId: deleteClient
+    summary: Delete a custom piece definition
+    operationId: deletePieceDefinition
     tags:
-      - Clients
+      - Piece Definitions
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: piece_definition_id
         in: path
         required: true
-        description: The client's UUID
+        description: The piece definition's UUID
         schema:
           type: string
           format: uuid
     responses:
       "204":
-        description: Client deleted successfully
+        description: Piece definition deleted successfully
       "400":
-        description: Invalid client ID format
+        description: Invalid ID format
         content:
           application/json:
             schema:
@@ -219,13 +211,13 @@ item:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "403":
-        description: Client does not belong to this user
+        description: Cannot delete predefined piece definition
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Piece definition not found
         content:
           application/json:
             schema:

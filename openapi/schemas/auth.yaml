@@ -2,43 +2,36 @@
 RegisterRequest:
   type: object
   description: Request body for registering a new user
+  additionalProperties: false
   required:
     - name
     - email
     - password
   properties:
     name:
-      type: string
-      minLength: 1
-      description: The user's full name
-      example: "Juan García"
+      $ref: "_fields.yaml#/UserName"
     email:
-      type: string
-      format: email
+      $ref: "_fields.yaml#/UserEmail"
       description: The user's email address (must be unique)
-      example: "juan@example.com"
     password:
-      type: string
-      minLength: 8
+      $ref: "_fields.yaml#/Password"
       description: Password (minimum 8 characters)
-      example: "securepass123"
+      minLength: 8
 
 LoginRequest:
   type: object
   description: Request body for logging in
+  additionalProperties: false
   required:
     - email
     - password
   properties:
     email:
-      type: string
-      format: email
-      description: The user's email address
-      example: "juan@example.com"
+      $ref: "_fields.yaml#/UserEmail"
     password:
-      type: string
+      $ref: "_fields.yaml#/Password"
       description: The user's password
-      example: "securepass123"
+      minLength: 1
 
 AuthResponse:
   type: object
@@ -51,24 +44,21 @@ AuthResponse:
     user:
       $ref: "user.yaml#/UserResponse"
     access_token:
-      type: string
-      description: Short-lived JWT for authenticating API requests
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      $ref: "_fields.yaml#/AccessToken"
     refresh_token:
-      type: string
-      description: Long-lived JWT for obtaining new access tokens
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      $ref: "_fields.yaml#/RefreshToken"
 
 RefreshRequest:
   type: object
   description: Request body for refreshing an access token
+  additionalProperties: false
   required:
     - refresh_token
   properties:
     refresh_token:
-      type: string
+      $ref: "_fields.yaml#/RefreshToken"
       description: The refresh token obtained from register or login
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      minLength: 1
 
 TokenResponse:
   type: object
@@ -78,24 +68,21 @@ TokenResponse:
     - refresh_token
   properties:
     access_token:
-      type: string
-      description: Short-lived JWT for authenticating API requests
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      $ref: "_fields.yaml#/AccessToken"
     refresh_token:
-      type: string
-      description: Long-lived JWT for obtaining new access tokens
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      $ref: "_fields.yaml#/RefreshToken"
 
 LogoutRequest:
   type: object
   description: Request body for logging out (revoking tokens)
+  additionalProperties: false
   required:
     - refresh_token
   properties:
     refresh_token:
-      type: string
+      $ref: "_fields.yaml#/RefreshToken"
       description: The refresh token to revoke
-      example: "eyJhbGciOiJIUzI1NiIs..."
+      minLength: 1
 
 MessageResponse:
   type: object

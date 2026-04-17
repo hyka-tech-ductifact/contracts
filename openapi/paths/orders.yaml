@@ -1,31 +1,39 @@
-# ─── Client Endpoints ────────────────────────────────────────
+# ─── Order Endpoints ──────────────────────────────────────────
 
-# POST /clients + GET /clients
+# POST + GET /projects/{project_id}/orders
 collection:
   post:
-    summary: Create a new client
-    operationId: createClient
+    summary: Create a new order for a project
+    operationId: createOrder
     tags:
-      - Clients
+      - Orders
     security:
       - bearerAuth: []
+    parameters:
+      - name: project_id
+        in: path
+        required: true
+        description: The project's UUID
+        schema:
+          type: string
+          format: uuid
     requestBody:
       required: true
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/CreateClientRequest"
+            $ref: "../schemas/order.yaml#/CreateOrderRequest"
           example:
-            name: "Acme Corp"
+            title: "Steel beams – lot 3"
     responses:
       "201":
-        description: Client created successfully
+        description: Order created successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/order.yaml#/OrderResponse"
       "400":
-        description: Invalid request body (missing or empty name)
+        description: Invalid request body
         content:
           application/json:
             schema:
@@ -36,15 +44,28 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+      "404":
+        description: Project not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
 
   get:
-    summary: List all clients for the authenticated user
-    operationId: listClients
+    summary: List all orders for a project
+    operationId: listOrders
     tags:
-      - Clients
+      - Orders
     security:
       - bearerAuth: []
     parameters:
+      - name: project_id
+        in: path
+        required: true
+        description: The project's UUID
+        schema:
+          type: string
+          format: uuid
       - name: page
         in: query
         required: false
@@ -66,85 +87,79 @@ collection:
           example: 20
     responses:
       "200":
-        description: Paginated list of clients
+        description: Paginated list of orders
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/PaginatedClientResponse"
+              $ref: "../schemas/order.yaml#/PaginatedOrderResponse"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+      "404":
+        description: Project not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# GET/PUT/DELETE /clients/{client_id}
+# GET/PUT/DELETE /orders/{order_id}
 item:
   get:
-    summary: Get a client by ID
-    operationId: getClient
+    summary: Get an order by ID
+    operationId: getOrder
     tags:
-      - Clients
+      - Orders
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: order_id
         in: path
         required: true
-        description: The client's UUID
+        description: The order's UUID
         schema:
           type: string
           format: uuid
     responses:
       "200":
-        description: Client found
+        description: Order found
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/order.yaml#/OrderResponse"
       "400":
-        description: Invalid client ID format
+        description: Invalid ID format
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid client ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client does not belong to this user"
       "404":
-        description: Client not found
+        description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client not found"
 
   put:
-    summary: Update a client
-    operationId: updateClient
+    summary: Update an order
+    operationId: updateOrder
     tags:
-      - Clients
+      - Orders
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: order_id
         in: path
         required: true
-        description: The client's UUID
+        description: The order's UUID
         schema:
           type: string
           format: uuid
@@ -153,18 +168,18 @@ item:
       content:
         application/json:
           schema:
-            $ref: "../schemas/client.yaml#/UpdateClientRequest"
+            $ref: "../schemas/order.yaml#/UpdateOrderRequest"
           example:
-            name: "Acme Corp Updated"
+            status: "completed"
     responses:
       "200":
-        description: Client updated successfully
+        description: Order updated successfully
         content:
           application/json:
             schema:
-              $ref: "../schemas/client.yaml#/ClientResponse"
+              $ref: "../schemas/order.yaml#/OrderResponse"
       "400":
-        description: Invalid request body or client ID format
+        description: Invalid request body or ID format
         content:
           application/json:
             schema:
@@ -175,39 +190,33 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
   delete:
-    summary: Delete a client
-    operationId: deleteClient
+    summary: Delete an order
+    operationId: deleteOrder
     tags:
-      - Clients
+      - Orders
     security:
       - bearerAuth: []
     parameters:
-      - name: client_id
+      - name: order_id
         in: path
         required: true
-        description: The client's UUID
+        description: The order's UUID
         schema:
           type: string
           format: uuid
     responses:
       "204":
-        description: Client deleted successfully
+        description: Order deleted successfully
       "400":
-        description: Invalid client ID format
+        description: Invalid ID format
         content:
           application/json:
             schema:
@@ -218,14 +227,8 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
-      "403":
-        description: Client does not belong to this user
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
       "404":
-        description: Client not found
+        description: Order not found
         content:
           application/json:
             schema:
