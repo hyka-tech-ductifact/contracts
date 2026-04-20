@@ -43,8 +43,8 @@ breaking: bundle
 	docker run --rm \
 		-v /tmp/oasdiff-base/openapi:/base:ro \
 		-v $(PWD)/openapi:/spec:ro \
-		tufin/oasdiff breaking /base/base-bundled.yaml /spec/bundled.yaml
-	@rm -rf /tmp/oasdiff-base
+		tufin/oasdiff breaking --fail-on-diff /base/base-bundled.yaml /spec/bundled.yaml; \
+		EXIT=$$?; rm -rf /tmp/oasdiff-base; exit $$EXIT
 
 # ─── Swagger UI ──────────────────────────────────────────────
 
