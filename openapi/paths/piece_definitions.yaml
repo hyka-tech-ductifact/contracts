@@ -12,15 +12,12 @@ collection:
     requestBody:
       required: true
       content:
-        application/json:
+        multipart/form-data:
           schema:
             $ref: "../schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
-          example:
-            name: "Custom L-Shape"
-            image_url: ""
-            dimension_schema:
-              - "Length"
-              - "Width"
+          encoding:
+            image:
+              contentType: image/png, image/jpeg, image/webp
     responses:
       "201":
         description: Piece definition created successfully
@@ -29,17 +26,21 @@ collection:
             schema:
               $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body
+        description: Invalid request body, unsupported image type, or image exceeds 5MB
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "unsupported image format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
 
   get:
     summary: List all piece definitions (predefined + user's custom)
@@ -81,6 +82,8 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
 
 # GET/PUT/DELETE /piece-definitions/{piece_definition_id}
 item:
@@ -112,18 +115,24 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid piece definition ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Piece definition not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition not found"
 
   put:
     summary: Update a custom piece definition
@@ -143,11 +152,12 @@ item:
     requestBody:
       required: true
       content:
-        application/json:
+        multipart/form-data:
           schema:
             $ref: "../schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
-          example:
-            name: "Custom L-Shape (revised)"
+          encoding:
+            image:
+              contentType: image/png, image/jpeg, image/webp
     responses:
       "200":
         description: Piece definition updated successfully
@@ -156,29 +166,37 @@ item:
             schema:
               $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body or ID format
+        description: Invalid request body, ID format, unsupported image type, or image exceeds 5MB
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "unsupported image format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "403":
         description: Cannot modify predefined piece definition
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "cannot modify predefined piece definition"
       "404":
         description: Piece definition not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition not found"
 
   delete:
     summary: Delete a custom piece definition
@@ -204,21 +222,29 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid piece definition ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "403":
         description: Cannot delete predefined piece definition
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "cannot delete predefined piece definition"
       "404":
         description: Piece definition not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition not found"

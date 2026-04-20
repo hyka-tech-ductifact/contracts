@@ -2,46 +2,45 @@
 
 CreatePieceDefinitionRequest:
   type: object
-  description: Request body for creating a new piece definition
+  description: |
+    Multipart request for creating a new piece definition.
+    Send as multipart/form-data with two parts:
+    - "data": a JSON string with the fields (name, dimension_schema).
+    - "image": optional binary image file (JPEG, PNG, or WebP, max 5MB).
   required:
-    - name
-    - dimension_schema
+    - data
   properties:
-    name:
-      $ref: "_fields.yaml#/PieceDefinitionName"
-    image_url:
-      $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece definition image
-    dimension_schema:
-      type: array
-      minItems: 1
-      maxItems: 10
-      items:
-        type: string
-        minLength: 1
-      description: List of dimension labels this piece type requires
-      example:
-        - "Length"
-        - "Width"
+    data:
+      type: string
+      format: json
+      description: |
+        JSON string containing the piece definition fields.
+        Required keys: name (string), dimension_schema (string[], 1–10 items).
+      example: '{"name":"Custom L-Shape","dimension_schema":["Length","Width"]}'
+    image:
+      type: string
+      format: binary
+      description: Optional image file (JPEG, PNG, or WebP). Maximum size 5MB.
 
 UpdatePieceDefinitionRequest:
   type: object
-  description: Request body for updating a piece definition. All fields are optional.
+  description: |
+    Multipart request for updating a piece definition.
+    Send as multipart/form-data with two parts (both optional, but at least one must be present):
+    - "data": a JSON string with the fields to update (name, dimension_schema).
+    - "image": binary image file to replace the current one (JPEG, PNG, or WebP, max 5MB).
   properties:
-    name:
-      $ref: "_fields.yaml#/PieceDefinitionName"
-      example: "Custom L-Shape (revised)"
-    image_url:
-      $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece definition image
-    dimension_schema:
-      type: array
-      minItems: 1
-      maxItems: 10
-      items:
-        type: string
-        minLength: 1
-      description: Updated list of dimension labels
+    data:
+      type: string
+      format: json
+      description: |
+        JSON string containing the fields to update. All keys are optional:
+        name (string), dimension_schema (string[], 1–10 items).
+      example: '{"name":"Custom L-Shape (revised)"}'
+    image:
+      type: string
+      format: binary
+      description: Optional replacement image file (JPEG, PNG, or WebP). Maximum size 5MB.
 
 PieceDefinitionResponse:
   type: object
@@ -50,6 +49,7 @@ PieceDefinitionResponse:
     - id
     - name
     - image_url
+    - thumbnail_url
     - dimension_schema
     - predefined
   properties:
@@ -61,7 +61,10 @@ PieceDefinitionResponse:
       example: "Rectangular"
     image_url:
       $ref: "_fields.yaml#/ImageUrl"
-      description: URL of the piece definition image
+      description: URL of the original piece definition image
+    thumbnail_url:
+      $ref: "_fields.yaml#/ThumbnailUrl"
+      description: URL of the piece definition thumbnail (200x150, JPEG)
     dimension_schema:
       type: array
       items:

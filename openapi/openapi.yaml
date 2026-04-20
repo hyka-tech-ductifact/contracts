@@ -62,6 +62,9 @@ paths:
   /piece-definitions/{piece_definition_id}:
     $ref: "paths/piece_definitions.yaml#/item"
 
+  /files/{filepath}:
+    $ref: "paths/files.yaml#/serve"
+
 # ─── Components ───────────────────────────────────────────────
 components:
   securitySchemes:

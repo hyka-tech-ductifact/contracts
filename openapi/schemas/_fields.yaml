@@ -31,7 +31,7 @@ UserName:
 UserEmail:
   type: string
   format: email
-  pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+  pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$"
   description: The user's email address
   example: "juan@example.com"
 
@@ -83,8 +83,17 @@ ManagerName:
 
 ImageUrl:
   type: string
-  description: URL of an image resource
-  example: ""
+  description: |
+    URL of the original image, served via the file proxy.
+    Empty string when no image has been uploaded.
+  example: "/v1/files/piece-definitions/550e8400-e29b-41d4-a716-446655440000/original.png"
+
+ThumbnailUrl:
+  type: string
+  description: |
+    URL of the thumbnail (200×150 JPEG), derived by convention from the original.
+    Empty string when no image has been uploaded.
+  example: "/v1/files/piece-definitions/550e8400-e29b-41d4-a716-446655440000/thumb.png"
 
 PieceTitle:
   type: string

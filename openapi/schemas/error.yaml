@@ -8,4 +8,4 @@ ErrorResponse:
     error:
       type: string
       description: Human-readable error message
-      example: "email already in use"
+      example: "descriptive error message"

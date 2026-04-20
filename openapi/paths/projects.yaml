@@ -42,18 +42,24 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid request body"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Client not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "client not found"
 
   get:
     summary: List all projects for a client
@@ -102,12 +108,16 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Client not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "client not found"
 
 # GET/PUT/DELETE /projects/{project_id}
 item:
@@ -139,18 +149,24 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid project ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
 
   put:
     summary: Update a project
@@ -188,18 +204,24 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid project ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
 
   delete:
     summary: Delete a project
@@ -225,15 +247,21 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid project ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
