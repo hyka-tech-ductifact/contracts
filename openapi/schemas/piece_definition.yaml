@@ -26,11 +26,9 @@ UpdatePieceDefinitionRequest:
   type: object
   description: |
     Multipart request for updating a piece definition.
-    Send as multipart/form-data with two parts:
-    - "data": a JSON string with the fields to update (all optional: name, dimension_schema).
-    - "image": optional binary image file to replace the current one (JPEG, PNG, or WebP, max 5MB).
-  required:
-    - data
+    Send as multipart/form-data with two parts (both optional, but at least one must be present):
+    - "data": a JSON string with the fields to update (name, dimension_schema).
+    - "image": binary image file to replace the current one (JPEG, PNG, or WebP, max 5MB).
   properties:
     data:
       type: string
