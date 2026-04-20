@@ -12,15 +12,12 @@ collection:
     requestBody:
       required: true
       content:
-        application/json:
+        multipart/form-data:
           schema:
             $ref: "../schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
-          example:
-            name: "Custom L-Shape"
-            image_url: ""
-            dimension_schema:
-              - "Length"
-              - "Width"
+          encoding:
+            image:
+              contentType: image/png, image/jpeg, image/webp
     responses:
       "201":
         description: Piece definition created successfully
@@ -29,7 +26,7 @@ collection:
             schema:
               $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body
+        description: Invalid request body, unsupported image type, or image exceeds 5MB
         content:
           application/json:
             schema:
@@ -143,11 +140,12 @@ item:
     requestBody:
       required: true
       content:
-        application/json:
+        multipart/form-data:
           schema:
             $ref: "../schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
-          example:
-            name: "Custom L-Shape (revised)"
+          encoding:
+            image:
+              contentType: image/png, image/jpeg, image/webp
     responses:
       "200":
         description: Piece definition updated successfully
@@ -156,7 +154,7 @@ item:
             schema:
               $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
       "400":
-        description: Invalid request body or ID format
+        description: Invalid request body, ID format, unsupported image type, or image exceeds 5MB
         content:
           application/json:
             schema:

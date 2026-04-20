@@ -86,6 +86,11 @@ ImageUrl:
   description: URL of an image resource
   example: ""
 
+ThumbnailUrl:
+  type: string
+  description: URL of a thumbnail image (derived from the original image URL)
+  example: ""
+
 PieceTitle:
   type: string
   minLength: 1
