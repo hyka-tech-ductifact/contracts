@@ -38,18 +38,24 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid request body"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
 
   get:
     summary: List all orders for a project
@@ -98,12 +104,16 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Project not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
 
 # GET/PUT/DELETE /orders/{order_id}
 item:
@@ -135,18 +145,24 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid order ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "order not found"
 
   put:
     summary: Update an order
@@ -184,18 +200,24 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid order ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "order not found"
 
   delete:
     summary: Delete an order
@@ -221,15 +243,21 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid order ID format"
       "401":
         description: Missing or invalid token
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
       "404":
         description: Order not found
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "order not found"
