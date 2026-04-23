@@ -61,6 +61,10 @@ paths:
     $ref: "paths/piece_definitions.yaml#/collection"
   /piece-definitions/{piece_definition_id}:
     $ref: "paths/piece_definitions.yaml#/item"
+  /piece-definitions/{piece_definition_id}/archive:
+    $ref: "paths/piece_definitions.yaml#/archive"
+  /piece-definitions/{piece_definition_id}/unarchive:
+    $ref: "paths/piece_definitions.yaml#/unarchive"
 
   /files/{filepath}:
     $ref: "paths/files.yaml#/serve"

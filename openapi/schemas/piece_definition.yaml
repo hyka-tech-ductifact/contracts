@@ -77,6 +77,12 @@ PieceDefinitionResponse:
       type: boolean
       description: Whether this is a system-defined piece type
       example: true
+    archived_at:
+      type: string
+      format: date-time
+      nullable: true
+      description: When the piece definition was archived (null if active)
+      example: null
 
 PaginatedPieceDefinitionResponse:
   type: object
