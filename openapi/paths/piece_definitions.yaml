@@ -248,3 +248,11 @@ item:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "piece definition not found"
+      "409":
+        description: Piece definition is in use by existing pieces
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition is in use by existing pieces"

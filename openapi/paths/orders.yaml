@@ -234,6 +234,15 @@ item:
         schema:
           type: string
           format: uuid
+      - name: cascade
+        in: query
+        required: false
+        description: >
+          If true, deletes the order and all its associated pieces.
+          If false (default), returns 409 if the order has associated pieces.
+        schema:
+          type: boolean
+          default: false
     responses:
       "204":
         description: Order deleted successfully
@@ -261,3 +270,11 @@ item:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "order not found"
+      "409":
+        description: Order has associated pieces (use cascade=true to force)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "order has associated pieces; set cascade=true to delete"
