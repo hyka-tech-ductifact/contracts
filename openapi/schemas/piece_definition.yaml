@@ -78,9 +78,10 @@ PieceDefinitionResponse:
       description: Whether this is a system-defined piece type
       example: true
     archived_at:
-      type: string
+      type:
+        - "string"
+        - "null"
       format: date-time
-      nullable: true
       description: When the piece definition was archived (null if active)
       example: null
 
