@@ -69,6 +69,14 @@ collection:
           maximum: 100
           default: 20
           example: 20
+      - name: include_archived
+        in: query
+        required: false
+        description: When true, include archived piece definitions in the results. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+          example: false
     responses:
       "200":
         description: Paginated list of piece definitions
@@ -197,6 +205,14 @@ item:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "piece definition not found"
+      "409":
+        description: Piece definition is in use by existing pieces
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition is in use by existing pieces"
 
   delete:
     summary: Delete a custom piece definition
@@ -240,6 +256,135 @@ item:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "cannot delete predefined piece definition"
+      "404":
+        description: Piece definition not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition not found"
+      "409":
+        description: Piece definition is in use by existing pieces
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition is in use by existing pieces"
+
+# POST /piece-definitions/{piece_definition_id}/archive
+archive:
+  post:
+    summary: Archive a custom piece definition
+    description: |
+      Soft-disables a piece definition so it cannot be used to create new pieces,
+      but existing pieces that reference it remain unaffected.
+      Idempotent: archiving an already-archived definition returns 200 without changes.
+    operationId: archivePieceDefinition
+    tags:
+      - Piece Definitions
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: piece_definition_id
+        in: path
+        required: true
+        description: The piece definition's UUID
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Piece definition archived successfully (or was already archived)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
+      "400":
+        description: Invalid ID format
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid piece definition ID format"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
+      "403":
+        description: Cannot archive predefined piece definition
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "predefined piece definitions cannot be modified"
+      "404":
+        description: Piece definition not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "piece definition not found"
+
+# POST /piece-definitions/{piece_definition_id}/unarchive
+unarchive:
+  post:
+    summary: Unarchive a custom piece definition
+    description: |
+      Re-enables an archived piece definition so it can be used to create new pieces again.
+      Idempotent: unarchiving an already-active definition returns 200 without changes.
+    operationId: unarchivePieceDefinition
+    tags:
+      - Piece Definitions
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: piece_definition_id
+        in: path
+        required: true
+        description: The piece definition's UUID
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Piece definition unarchived successfully (or was already active)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
+      "400":
+        description: Invalid ID format
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid piece definition ID format"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
+      "403":
+        description: Cannot unarchive predefined piece definition
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "predefined piece definitions cannot be modified"
       "404":
         description: Piece definition not found
         content:

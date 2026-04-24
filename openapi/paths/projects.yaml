@@ -238,6 +238,16 @@ item:
         schema:
           type: string
           format: uuid
+      - name: cascade
+        in: query
+        required: false
+        description: >
+          If true, deletes the project and all its associated orders and
+          pieces. If false (default), returns 409 if the project has
+          associated orders.
+        schema:
+          type: boolean
+          default: false
     responses:
       "204":
         description: Project deleted successfully
@@ -265,3 +275,11 @@ item:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "project not found"
+      "409":
+        description: Project has associated orders (use cascade=true to force)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project has associated orders; set cascade=true to delete"

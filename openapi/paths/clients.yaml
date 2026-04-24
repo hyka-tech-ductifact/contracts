@@ -203,6 +203,16 @@ item:
         schema:
           type: string
           format: uuid
+      - name: cascade
+        in: query
+        required: false
+        description: >
+          If true, deletes the client and all its associated projects, orders,
+          and pieces. If false (default), returns 409 if the client has
+          associated projects.
+        schema:
+          type: boolean
+          default: false
     responses:
       "204":
         description: Client deleted successfully
@@ -230,3 +240,11 @@ item:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+      "409":
+        description: Client has associated projects (use cascade=true to force)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "client has associated projects; set cascade=true to delete"
