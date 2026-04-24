@@ -1,66 +1,7 @@
 # ─── Project Endpoints ────────────────────────────────────────
 
-# POST + GET /clients/{client_id}/projects
+# GET + POST /clients/{client_id}/projects
 collection:
-  post:
-    summary: Create a new project for a client
-    operationId: createProject
-    tags:
-      - Projects
-    security:
-      - bearerAuth: []
-    parameters:
-      - name: client_id
-        in: path
-        required: true
-        description: The client's UUID
-        schema:
-          type: string
-          format: uuid
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/project.yaml#/CreateProjectRequest"
-          example:
-            name: "Residential Tower B"
-            address: "Calle Mayor 12, Madrid"
-            manager_name: "Carlos Pérez"
-            phone: "+34 699 111 222"
-            description: "14-storey residential building, phase 1"
-    responses:
-      "201":
-        description: Project created successfully
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/project.yaml#/ProjectResponse"
-      "400":
-        description: Invalid request body
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid request body"
-      "401":
-        description: Missing or invalid token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "authorization header required"
-      "404":
-        description: Client not found
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "client not found"
-
   get:
     summary: List all projects for a client
     operationId: listProjects
@@ -110,6 +51,65 @@ collection:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "page_size must be between 1 and 100"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
+      "404":
+        description: Client not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "client not found"
+
+  post:
+    summary: Create a new project for a client
+    operationId: createProject
+    tags:
+      - Projects
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: client_id
+        in: path
+        required: true
+        description: The client's UUID
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/project.yaml#/CreateProjectRequest"
+          example:
+            name: "Residential Tower B"
+            address: "Calle Mayor 12, Madrid"
+            manager_name: "Carlos Pérez"
+            phone: "+34 699 111 222"
+            description: "14-storey residential building, phase 1"
+    responses:
+      "201":
+        description: Project created successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/project.yaml#/ProjectResponse"
+      "400":
+        description: Invalid request body
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid request body"
       "401":
         description: Missing or invalid token
         content:
