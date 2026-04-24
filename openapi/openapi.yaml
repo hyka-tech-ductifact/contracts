@@ -20,6 +20,25 @@ servers:
 
 security: []
 
+# ─── Tags (controls display order in Swagger UI) ─────────────
+tags:
+  - name: Auth
+    description: Registration, login, token refresh and logout
+  - name: Users
+    description: Authenticated user profile
+  - name: Clients
+    description: Client management
+  - name: Projects
+    description: Project management (nested under clients)
+  - name: Orders
+    description: Order management (nested under projects)
+  - name: Pieces
+    description: Piece management (nested under orders)
+  - name: Piece Definitions
+    description: Piece definition catalog (predefined + custom)
+  - name: Files
+    description: Static file serving (images from storage)
+
 # ─── Paths (alphabetical by resource) ─────────────────────────
 paths:
   # Auth
