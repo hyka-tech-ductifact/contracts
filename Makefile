@@ -38,13 +38,19 @@ bundle:
 # Detect breaking changes against a base branch or tag
 breaking: bundle
 	@rm -rf /tmp/oasdiff-base && mkdir -p /tmp/oasdiff-base
-	cd /tmp/oasdiff-base && git -C $(CURDIR) archive $(BASE_REF) -- openapi/ | tar xf -
-	docker run --rm -v /tmp/oasdiff-base/openapi:/spec redocly/cli bundle /spec/openapi.yaml -o /spec/base-bundled.yaml
-	docker run --rm \
+	@cd /tmp/oasdiff-base && git -C $(CURDIR) archive $(BASE_REF) -- openapi/ | tar xf -
+	@docker run --rm -v /tmp/oasdiff-base/openapi:/spec redocly/cli bundle /spec/openapi.yaml -o /spec/base-bundled.yaml 2>/dev/null
+	@docker run --rm \
 		-v /tmp/oasdiff-base/openapi:/base:ro \
 		-v $(PWD)/openapi:/spec:ro \
-		tufin/oasdiff breaking --fail-on-diff /base/base-bundled.yaml /spec/bundled.yaml; \
-		EXIT=$$?; rm -rf /tmp/oasdiff-base; exit $$EXIT
+		tufin/oasdiff breaking --fail-on ERR /base/base-bundled.yaml /spec/bundled.yaml; \
+		EXIT=$$?; rm -rf /tmp/oasdiff-base; \
+		if [ $$EXIT -eq 0 ]; then \
+			echo "\033[32m✅ No breaking changes detected.\033[0m"; \
+		else \
+			echo "\033[31m❌ Breaking changes found!\033[0m"; \
+		fi; \
+		exit $$EXIT
 
 # ─── Swagger UI ──────────────────────────────────────────────
 
