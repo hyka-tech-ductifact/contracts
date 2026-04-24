@@ -102,6 +102,14 @@ collection:
           application/json:
             schema:
               $ref: "../schemas/project.yaml#/PaginatedProjectResponse"
+      "400":
+        description: Invalid pagination parameters (e.g. page < 1, page_size not in 1–100)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "page_size must be between 1 and 100"
       "401":
         description: Missing or invalid token
         content:
