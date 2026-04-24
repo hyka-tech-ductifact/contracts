@@ -20,14 +20,8 @@ servers:
 
 security: []
 
-# ─── Paths ────────────────────────────────────────────────────
+# ─── Paths (alphabetical by resource) ─────────────────────────
 paths:
-  # ── Infrastructure ──
-  /health:
-    $ref: "paths/health.yaml"
-
-  # ── Resources (alphabetical) ──
-
   # Auth
   /auth/login:
     $ref: "paths/auth.yaml#/login"
@@ -119,12 +113,6 @@ components:
     # Error
     ErrorResponse:
       $ref: "schemas/error.yaml#/ErrorResponse"
-
-    # Health
-    HealthResponse:
-      $ref: "schemas/health.yaml#/HealthResponse"
-    HealthResponseUnhealthy:
-      $ref: "schemas/health.yaml#/HealthResponseUnhealthy"
 
     # Order
     CreateOrderRequest:
