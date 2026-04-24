@@ -20,43 +20,41 @@ servers:
 
 security: []
 
-# ─── Paths (split by resource) ────────────────────────────────
+# ─── Paths ────────────────────────────────────────────────────
 paths:
+  # ── Infrastructure ──
   /health:
     $ref: "paths/health.yaml"
 
-  /auth/register:
-    $ref: "paths/auth.yaml#/register"
+  # ── Resources (alphabetical) ──
+
+  # Auth
   /auth/login:
     $ref: "paths/auth.yaml#/login"
-  /auth/refresh:
-    $ref: "paths/auth.yaml#/refresh"
   /auth/logout:
     $ref: "paths/auth.yaml#/logout"
+  /auth/refresh:
+    $ref: "paths/auth.yaml#/refresh"
+  /auth/register:
+    $ref: "paths/auth.yaml#/register"
 
-  /users/me:
-    $ref: "paths/users.yaml#/me"
-
+  # Clients
   /clients:
     $ref: "paths/clients.yaml#/collection"
   /clients/{client_id}:
     $ref: "paths/clients.yaml#/item"
 
-  /clients/{client_id}/projects:
-    $ref: "paths/projects.yaml#/collection"
-  /projects/{project_id}:
-    $ref: "paths/projects.yaml#/item"
+  # Files
+  /files/{filepath}:
+    $ref: "paths/files.yaml#/serve"
 
+  # Orders
   /projects/{project_id}/orders:
     $ref: "paths/orders.yaml#/collection"
   /orders/{order_id}:
     $ref: "paths/orders.yaml#/item"
 
-  /orders/{order_id}/pieces:
-    $ref: "paths/pieces.yaml#/collection"
-  /orders/{order_id}/pieces/{piece_id}:
-    $ref: "paths/pieces.yaml#/item"
-
+  # Piece Definitions
   /piece-definitions:
     $ref: "paths/piece_definitions.yaml#/collection"
   /piece-definitions/{piece_definition_id}:
@@ -66,8 +64,21 @@ paths:
   /piece-definitions/{piece_definition_id}/unarchive:
     $ref: "paths/piece_definitions.yaml#/unarchive"
 
-  /files/{filepath}:
-    $ref: "paths/files.yaml#/serve"
+  # Pieces
+  /orders/{order_id}/pieces:
+    $ref: "paths/pieces.yaml#/collection"
+  /orders/{order_id}/pieces/{piece_id}:
+    $ref: "paths/pieces.yaml#/item"
+
+  # Projects
+  /clients/{client_id}/projects:
+    $ref: "paths/projects.yaml#/collection"
+  /projects/{project_id}:
+    $ref: "paths/projects.yaml#/item"
+
+  # Users
+  /users/me:
+    $ref: "paths/users.yaml#/me"
 
 # ─── Components ───────────────────────────────────────────────
 components:
@@ -80,78 +91,34 @@ components:
 
   schemas:
     # Auth
-    RegisterRequest:
-      $ref: "schemas/auth.yaml#/RegisterRequest"
-    LoginRequest:
-      $ref: "schemas/auth.yaml#/LoginRequest"
     AuthResponse:
       $ref: "schemas/auth.yaml#/AuthResponse"
-    RefreshRequest:
-      $ref: "schemas/auth.yaml#/RefreshRequest"
-    TokenResponse:
-      $ref: "schemas/auth.yaml#/TokenResponse"
+    LoginRequest:
+      $ref: "schemas/auth.yaml#/LoginRequest"
     LogoutRequest:
       $ref: "schemas/auth.yaml#/LogoutRequest"
     MessageResponse:
       $ref: "schemas/auth.yaml#/MessageResponse"
-
-    # User
-    UserResponse:
-      $ref: "schemas/user.yaml#/UserResponse"
-    UpdateUserRequest:
-      $ref: "schemas/user.yaml#/UpdateUserRequest"
+    RefreshRequest:
+      $ref: "schemas/auth.yaml#/RefreshRequest"
+    RegisterRequest:
+      $ref: "schemas/auth.yaml#/RegisterRequest"
+    TokenResponse:
+      $ref: "schemas/auth.yaml#/TokenResponse"
 
     # Client
     ClientResponse:
       $ref: "schemas/client.yaml#/ClientResponse"
     CreateClientRequest:
       $ref: "schemas/client.yaml#/CreateClientRequest"
-    UpdateClientRequest:
-      $ref: "schemas/client.yaml#/UpdateClientRequest"
     PaginatedClientResponse:
       $ref: "schemas/client.yaml#/PaginatedClientResponse"
+    UpdateClientRequest:
+      $ref: "schemas/client.yaml#/UpdateClientRequest"
 
-    # Project
-    ProjectResponse:
-      $ref: "schemas/project.yaml#/ProjectResponse"
-    CreateProjectRequest:
-      $ref: "schemas/project.yaml#/CreateProjectRequest"
-    UpdateProjectRequest:
-      $ref: "schemas/project.yaml#/UpdateProjectRequest"
-    PaginatedProjectResponse:
-      $ref: "schemas/project.yaml#/PaginatedProjectResponse"
-
-    # Order
-    OrderResponse:
-      $ref: "schemas/order.yaml#/OrderResponse"
-    CreateOrderRequest:
-      $ref: "schemas/order.yaml#/CreateOrderRequest"
-    UpdateOrderRequest:
-      $ref: "schemas/order.yaml#/UpdateOrderRequest"
-    PaginatedOrderResponse:
-      $ref: "schemas/order.yaml#/PaginatedOrderResponse"
-    OrderStatus:
-      $ref: "schemas/order.yaml#/OrderStatus"
-
-    # Piece Definition
-    PieceDefinitionResponse:
-      $ref: "schemas/piece_definition.yaml#/PieceDefinitionResponse"
-    CreatePieceDefinitionRequest:
-      $ref: "schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
-    UpdatePieceDefinitionRequest:
-      $ref: "schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
-    PaginatedPieceDefinitionResponse:
-      $ref: "schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
-
-    # Piece
-    PieceResponse:
-      $ref: "schemas/piece.yaml#/PieceResponse"
-    CreatePieceRequest:
-      $ref: "schemas/piece.yaml#/CreatePieceRequest"
-    UpdatePieceRequest:
-      $ref: "schemas/piece.yaml#/UpdatePieceRequest"
-    PaginatedPieceResponse:
-      $ref: "schemas/piece.yaml#/PaginatedPieceResponse"
+    # Error
+    ErrorResponse:
+      $ref: "schemas/error.yaml#/ErrorResponse"
 
     # Health
     HealthResponse:
@@ -159,6 +126,50 @@ components:
     HealthResponseUnhealthy:
       $ref: "schemas/health.yaml#/HealthResponseUnhealthy"
 
-    # Error
-    ErrorResponse:
-      $ref: "schemas/error.yaml#/ErrorResponse"
+    # Order
+    CreateOrderRequest:
+      $ref: "schemas/order.yaml#/CreateOrderRequest"
+    OrderResponse:
+      $ref: "schemas/order.yaml#/OrderResponse"
+    OrderStatus:
+      $ref: "schemas/order.yaml#/OrderStatus"
+    PaginatedOrderResponse:
+      $ref: "schemas/order.yaml#/PaginatedOrderResponse"
+    UpdateOrderRequest:
+      $ref: "schemas/order.yaml#/UpdateOrderRequest"
+
+    # Piece
+    CreatePieceRequest:
+      $ref: "schemas/piece.yaml#/CreatePieceRequest"
+    PaginatedPieceResponse:
+      $ref: "schemas/piece.yaml#/PaginatedPieceResponse"
+    PieceResponse:
+      $ref: "schemas/piece.yaml#/PieceResponse"
+    UpdatePieceRequest:
+      $ref: "schemas/piece.yaml#/UpdatePieceRequest"
+
+    # Piece Definition
+    CreatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
+    PaginatedPieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
+    PieceDefinitionResponse:
+      $ref: "schemas/piece_definition.yaml#/PieceDefinitionResponse"
+    UpdatePieceDefinitionRequest:
+      $ref: "schemas/piece_definition.yaml#/UpdatePieceDefinitionRequest"
+
+    # Project
+    CreateProjectRequest:
+      $ref: "schemas/project.yaml#/CreateProjectRequest"
+    PaginatedProjectResponse:
+      $ref: "schemas/project.yaml#/PaginatedProjectResponse"
+    ProjectResponse:
+      $ref: "schemas/project.yaml#/ProjectResponse"
+    UpdateProjectRequest:
+      $ref: "schemas/project.yaml#/UpdateProjectRequest"
+
+    # User
+    UpdateUserRequest:
+      $ref: "schemas/user.yaml#/UpdateUserRequest"
+    UserResponse:
+      $ref: "schemas/user.yaml#/UserResponse"

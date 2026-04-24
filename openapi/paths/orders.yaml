@@ -1,62 +1,7 @@
 # ─── Order Endpoints ──────────────────────────────────────────
 
-# POST + GET /projects/{project_id}/orders
+# GET + POST /projects/{project_id}/orders
 collection:
-  post:
-    summary: Create a new order for a project
-    operationId: createOrder
-    tags:
-      - Orders
-    security:
-      - bearerAuth: []
-    parameters:
-      - name: project_id
-        in: path
-        required: true
-        description: The project's UUID
-        schema:
-          type: string
-          format: uuid
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/order.yaml#/CreateOrderRequest"
-          example:
-            title: "Steel beams – lot 3"
-    responses:
-      "201":
-        description: Order created successfully
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/order.yaml#/OrderResponse"
-      "400":
-        description: Invalid request body
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid request body"
-      "401":
-        description: Missing or invalid token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "authorization header required"
-      "404":
-        description: Project not found
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "project not found"
-
   get:
     summary: List all orders for a project
     operationId: listOrders
@@ -106,6 +51,61 @@ collection:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "page_size must be between 1 and 100"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
+      "404":
+        description: Project not found
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "project not found"
+
+  post:
+    summary: Create a new order for a project
+    operationId: createOrder
+    tags:
+      - Orders
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: project_id
+        in: path
+        required: true
+        description: The project's UUID
+        schema:
+          type: string
+          format: uuid
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/order.yaml#/CreateOrderRequest"
+          example:
+            title: "Steel beams – lot 3"
+    responses:
+      "201":
+        description: Order created successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/order.yaml#/OrderResponse"
+      "400":
+        description: Invalid request body
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid request body"
       "401":
         description: Missing or invalid token
         content:

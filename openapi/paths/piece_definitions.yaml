@@ -1,47 +1,7 @@
 # ─── Piece Definition Endpoints ───────────────────────────────
 
-# POST + GET /piece-definitions
+# GET + POST /piece-definitions
 collection:
-  post:
-    summary: Create a new custom piece definition
-    operationId: createPieceDefinition
-    tags:
-      - Piece Definitions
-    security:
-      - bearerAuth: []
-    requestBody:
-      required: true
-      content:
-        multipart/form-data:
-          schema:
-            $ref: "../schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
-          encoding:
-            image:
-              contentType: image/png, image/jpeg, image/webp
-    responses:
-      "201":
-        description: Piece definition created successfully
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
-      "400":
-        description: Invalid request body, unsupported image type, or image exceeds 5MB
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "unsupported image format"
-      "401":
-        description: Missing or invalid token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "authorization header required"
-
   get:
     summary: List all piece definitions (predefined + user's custom)
     operationId: listPieceDefinitions
@@ -92,6 +52,46 @@ collection:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "page_size must be between 1 and 100"
+      "401":
+        description: Missing or invalid token
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "authorization header required"
+
+  post:
+    summary: Create a new custom piece definition
+    operationId: createPieceDefinition
+    tags:
+      - Piece Definitions
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "../schemas/piece_definition.yaml#/CreatePieceDefinitionRequest"
+          encoding:
+            image:
+              contentType: image/png, image/jpeg, image/webp
+    responses:
+      "201":
+        description: Piece definition created successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/piece_definition.yaml#/PieceDefinitionResponse"
+      "400":
+        description: Invalid request body, unsupported image type, or image exceeds 5MB
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "unsupported image format"
       "401":
         description: Missing or invalid token
         content:
