@@ -17,6 +17,9 @@ RegisterRequest:
       $ref: "_fields.yaml#/Password"
       description: Password (minimum 8 characters)
       minLength: 8
+    locale:
+      $ref: "_fields.yaml#/Locale"
+      description: Preferred language (optional, defaults to 'en')
 
 LoginRequest:
   type: object
