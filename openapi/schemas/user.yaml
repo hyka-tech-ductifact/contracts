@@ -9,6 +9,9 @@ UpdateUserRequest:
     email:
       $ref: "_fields.yaml#/UserEmail"
       description: The user's new email (must be unique)
+    locale:
+      $ref: "_fields.yaml#/Locale"
+      description: The user's preferred language
 
 UserResponse:
   type: object
@@ -17,6 +20,7 @@ UserResponse:
     - id
     - name
     - email
+    - locale
   properties:
     id:
       $ref: "_fields.yaml#/UUID"
@@ -25,3 +29,5 @@ UserResponse:
       $ref: "_fields.yaml#/UserName"
     email:
       $ref: "_fields.yaml#/UserEmail"
+    locale:
+      $ref: "_fields.yaml#/Locale"
