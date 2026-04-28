@@ -226,3 +226,45 @@ resend-verification:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "email already verified"
+
+# PUT /auth/password
+change-password:
+  put:
+    summary: Change the authenticated user's password
+    operationId: changePassword
+    tags:
+      - Auth
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/ChangePasswordRequest"
+          example:
+            current_password: "oldpass123"
+            new_password: "newpass456"
+    responses:
+      "200":
+        description: Password changed successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/MessageResponse"
+            example:
+              message: "password changed successfully"
+      "400":
+        description: Invalid request body (missing fields, new password too short)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+      "401":
+        description: Missing/invalid access token or current password is incorrect
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "current password is incorrect"

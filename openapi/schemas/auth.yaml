@@ -110,3 +110,20 @@ VerifyEmailRequest:
       description: The verification token received via email
       minLength: 1
       example: "a1b2c3d4e5f6..."
+
+ChangePasswordRequest:
+  type: object
+  description: Request body for changing the user's password
+  additionalProperties: false
+  required:
+    - current_password
+    - new_password
+  properties:
+    current_password:
+      $ref: "_fields.yaml#/Password"
+      description: The user's current password
+      minLength: 1
+    new_password:
+      $ref: "_fields.yaml#/Password"
+      description: The new password (minimum 8 characters)
+      minLength: 8
