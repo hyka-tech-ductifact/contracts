@@ -36,6 +36,12 @@ UserEmail:
   description: The user's email address
   example: "juan@example.com"
 
+Locale:
+  type: string
+  enum: [en, es]
+  description: "User's preferred language (BCP 47 tag)"
+  example: "en"
+
 # ── Entity names ─────────────────────────────────────────────
 ClientName:
   type: string
