@@ -268,3 +268,68 @@ change-password:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "current password is incorrect"
+
+# POST /auth/forgot-password
+forgot-password:
+  post:
+    summary: Request a password reset email
+    operationId: forgotPassword
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/ForgotPasswordRequest"
+          example:
+            email: "juan@example.com"
+    responses:
+      "200":
+        description: If the email exists, a password reset link has been sent
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/MessageResponse"
+            example:
+              message: "if the email exists, a password reset link has been sent"
+      "400":
+        description: Invalid request body (missing email)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+
+# POST /auth/reset-password
+reset-password:
+  post:
+    summary: Reset password using a valid token
+    operationId: resetPassword
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/ResetPasswordRequest"
+          example:
+            token: "a1b2c3d4e5f6..."
+            new_password: "newpass456"
+    responses:
+      "200":
+        description: Password reset successfully
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/MessageResponse"
+            example:
+              message: "password reset successfully"
+      "400":
+        description: Invalid or expired reset token, or new password too short
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid or expired password reset token"

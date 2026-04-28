@@ -56,6 +56,10 @@ paths:
     $ref: "paths/auth.yaml#/resend-verification"
   /auth/password:
     $ref: "paths/auth.yaml#/change-password"
+  /auth/forgot-password:
+    $ref: "paths/auth.yaml#/forgot-password"
+  /auth/reset-password:
+    $ref: "paths/auth.yaml#/reset-password"
 
   # Clients
   /clients:
