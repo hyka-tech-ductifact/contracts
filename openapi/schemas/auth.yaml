@@ -97,3 +97,16 @@ MessageResponse:
       type: string
       description: Human-readable success message
       example: "logged out successfully"
+
+VerifyEmailRequest:
+  type: object
+  description: Request body for verifying an email address
+  additionalProperties: false
+  required:
+    - token
+  properties:
+    token:
+      type: string
+      description: The verification token received via email
+      minLength: 1
+      example: "a1b2c3d4e5f6..."
