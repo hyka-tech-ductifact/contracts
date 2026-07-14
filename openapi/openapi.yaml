@@ -50,10 +50,8 @@ paths:
     $ref: "paths/auth.yaml#/refresh"
   /auth/register:
     $ref: "paths/auth.yaml#/register"
-  /auth/verify-email:
-    $ref: "paths/auth.yaml#/verify-email"
-  /auth/resend-verification:
-    $ref: "paths/auth.yaml#/resend-verification"
+  /auth/register/verify:
+    $ref: "paths/auth.yaml#/register-verify"
   /auth/password:
     $ref: "paths/auth.yaml#/change-password"
   /auth/forgot-password:
@@ -126,6 +124,8 @@ components:
       $ref: "schemas/auth.yaml#/RefreshRequest"
     RegisterRequest:
       $ref: "schemas/auth.yaml#/RegisterRequest"
+    StartRegistrationRequest:
+      $ref: "schemas/auth.yaml#/StartRegistrationRequest"
     TokenResponse:
       $ref: "schemas/auth.yaml#/TokenResponse"
 

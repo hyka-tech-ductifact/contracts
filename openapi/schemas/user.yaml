@@ -21,7 +21,6 @@ UserResponse:
     - name
     - email
     - locale
-    - email_verified
   properties:
     id:
       $ref: "_fields.yaml#/UUID"
@@ -32,7 +31,3 @@ UserResponse:
       $ref: "_fields.yaml#/UserEmail"
     locale:
       $ref: "_fields.yaml#/Locale"
-    email_verified:
-      type: boolean
-      description: Whether the user has verified their email address
-      example: false
