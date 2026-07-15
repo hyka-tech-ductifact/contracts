@@ -3,7 +3,48 @@
 # POST /auth/register
 register:
   post:
-    summary: Register a new user
+    summary: Start registration by requesting a verification code
+    description: >-
+      First step of the email-first registration flow. Only an email address is
+      required. If the email is available, a numeric one-time verification code
+      (OTP) is generated and emailed to the user. The response is intentionally
+      generic to avoid disclosing whether the email is already registered.
+    operationId: startRegistration
+    tags:
+      - Auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/auth.yaml#/StartRegistrationRequest"
+          example:
+            email: "juan@example.com"
+    responses:
+      "200":
+        description: If the email is available, a verification code has been sent
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/auth.yaml#/MessageResponse"
+            example:
+              message: "if the email is available, a verification code has been sent"
+      "400":
+        description: Invalid request body (missing or invalid email)
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yaml#/ErrorResponse"
+
+# POST /auth/register/verify
+register-verify:
+  post:
+    summary: Complete registration by verifying the code and creating the account
+    description: >-
+      Second step of the email-first registration flow. The user submits the
+      numeric verification code (OTP) received by email together with their name
+      and password. On success the account is created and an authentication
+      token pair is returned.
     operationId: register
     tags:
       - Auth
@@ -14,8 +55,9 @@ register:
           schema:
             $ref: "../schemas/auth.yaml#/RegisterRequest"
           example:
-            name: "Juan García"
             email: "juan@example.com"
+            code: "123456"
+            name: "Juan García"
             password: "securepass123"
     responses:
       "201":
@@ -25,11 +67,15 @@ register:
             schema:
               $ref: "../schemas/auth.yaml#/AuthResponse"
       "400":
-        description: Invalid request body (missing fields, invalid email, short password)
+        description: >-
+          Invalid request body (missing fields, short password) or an invalid or
+          expired verification code
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
+            example:
+              error: "invalid or expired verification code"
       "409":
         description: Email already registered
         content:
@@ -153,80 +199,6 @@ logout:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# POST /auth/verify-email
-verify-email:
-  post:
-    summary: Verify email address using a token
-    operationId: verifyEmail
-    tags:
-      - Auth
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/auth.yaml#/VerifyEmailRequest"
-          example:
-            token: "a1b2c3d4e5f6..."
-    responses:
-      "200":
-        description: Email verified successfully
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/auth.yaml#/MessageResponse"
-            example:
-              message: "email verified successfully"
-      "400":
-        description: Invalid or expired verification token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "invalid or expired verification token"
-      "409":
-        description: Email already verified
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "email already verified"
-
-# POST /auth/resend-verification
-resend-verification:
-  post:
-    summary: Resend the email verification link
-    operationId: resendVerification
-    tags:
-      - Auth
-    security:
-      - bearerAuth: []
-    responses:
-      "200":
-        description: Verification email sent
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/auth.yaml#/MessageResponse"
-            example:
-              message: "verification email sent"
-      "401":
-        description: Missing or invalid access token
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-      "409":
-        description: Email already verified
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "email already verified"
-
 # PUT /auth/password
 change-password:
   put:
@@ -269,11 +241,11 @@ change-password:
             example:
               error: "current password is incorrect"
 
-# POST /auth/forgot-password
-forgot-password:
+# POST /auth/password/reset
+password-reset:
   post:
-    summary: Request a password reset email
-    operationId: forgotPassword
+    summary: Request a password reset code by email
+    operationId: startPasswordReset
     tags:
       - Auth
     requestBody:
@@ -286,13 +258,13 @@ forgot-password:
             email: "juan@example.com"
     responses:
       "200":
-        description: If the email exists, a password reset link has been sent
+        description: If the email exists, a password reset code has been sent
         content:
           application/json:
             schema:
               $ref: "../schemas/auth.yaml#/MessageResponse"
             example:
-              message: "if the email exists, a password reset link has been sent"
+              message: "if the email exists, a password reset code has been sent"
       "400":
         description: Invalid request body (missing email)
         content:
@@ -300,11 +272,11 @@ forgot-password:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# POST /auth/reset-password
-reset-password:
+# POST /auth/password/reset/verify
+password-reset-verify:
   post:
-    summary: Reset password using a valid token
-    operationId: resetPassword
+    summary: Reset password using the numeric verification code (OTP)
+    operationId: verifyPasswordReset
     tags:
       - Auth
     requestBody:
@@ -314,7 +286,8 @@ reset-password:
           schema:
             $ref: "../schemas/auth.yaml#/ResetPasswordRequest"
           example:
-            token: "a1b2c3d4e5f6..."
+            email: "juan@example.com"
+            code: "123456"
             new_password: "newpass456"
     responses:
       "200":
@@ -326,10 +299,10 @@ reset-password:
             example:
               message: "password reset successfully"
       "400":
-        description: Invalid or expired reset token, or new password too short
+        description: Invalid or expired reset code, or new password too short
         content:
           application/json:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
-              error: "invalid or expired password reset token"
+              error: "invalid or expired code"
