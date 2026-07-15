@@ -241,11 +241,11 @@ change-password:
             example:
               error: "current password is incorrect"
 
-# POST /auth/forgot-password
-forgot-password:
+# POST /auth/password/reset
+password-reset:
   post:
     summary: Request a password reset code by email
-    operationId: forgotPassword
+    operationId: startPasswordReset
     tags:
       - Auth
     requestBody:
@@ -272,11 +272,11 @@ forgot-password:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
 
-# POST /auth/reset-password
-reset-password:
+# POST /auth/password/reset/verify
+password-reset-verify:
   post:
     summary: Reset password using the numeric verification code (OTP)
-    operationId: resetPassword
+    operationId: verifyPasswordReset
     tags:
       - Auth
     requestBody:
