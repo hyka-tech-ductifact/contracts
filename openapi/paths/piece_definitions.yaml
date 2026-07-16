@@ -29,6 +29,27 @@ collection:
           maximum: 100
           default: 20
           example: 20
+      - name: search
+        in: query
+        required: false
+        description: >-
+          Case-insensitive literal partial match against piece definition name.
+          Surrounding whitespace is ignored and wildcard characters are treated
+          literally.
+        schema:
+          type: string
+          maxLength: 200
+          pattern: '^[^\u0000]*$'
+          example: "rectangular"
+      - name: predefined
+        in: query
+        required: false
+        description: >-
+          Exact filter for system-predefined (true) or user-defined (false)
+          piece definitions.
+        schema:
+          type: boolean
+          example: true
       - name: include_archived
         in: query
         required: false
@@ -37,6 +58,27 @@ collection:
           type: boolean
           default: false
           example: false
+      - name: sort_by
+        in: query
+        required: false
+        description: >-
+          Field used for sorting. When omitted, the existing default order
+          (predefined descending, then created_at descending) is preserved.
+        schema:
+          type: string
+          enum: [name, predefined, created_at, updated_at, archived_at]
+          example: "name"
+      - name: sort_order
+        in: query
+        required: false
+        description: >-
+          Direction applied when sort_by is provided. Defaults to asc when
+          sort_by is present and is ignored when sort_by is omitted.
+        schema:
+          type: string
+          enum: [asc, desc]
+          default: asc
+          example: "asc"
     responses:
       "200":
         description: Paginated list of piece definitions
@@ -45,7 +87,7 @@ collection:
             schema:
               $ref: "../schemas/piece_definition.yaml#/PaginatedPieceDefinitionResponse"
       "400":
-        description: Invalid pagination parameters (e.g. page < 1, page_size not in 1–100)
+        description: Invalid list parameters (pagination, filtering, or sorting)
         content:
           application/json:
             schema:
