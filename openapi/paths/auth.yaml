@@ -134,7 +134,7 @@ refresh:
             refresh_token: "eyJhbGciOiJIUzI1NiIs..."
     responses:
       "200":
-        description: Token refreshed successfully
+        description: Token refreshed successfully, with effective lifetimes in seconds
         content:
           application/json:
             schema:

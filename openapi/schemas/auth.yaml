@@ -59,11 +59,16 @@ LoginRequest:
 
 AuthResponse:
   type: object
-  description: Response returned after successful register or login
+  description: >-
+    Response returned after successful register or login, including the
+    effective token lifetimes in seconds.
   required:
     - user
     - access_token
     - refresh_token
+    - token_type
+    - expires_in
+    - refresh_expires_in
   properties:
     user:
       $ref: "user.yaml#/UserResponse"
@@ -71,6 +76,12 @@ AuthResponse:
       $ref: "_fields.yaml#/AccessToken"
     refresh_token:
       $ref: "_fields.yaml#/RefreshToken"
+    token_type:
+      $ref: "_fields.yaml#/TokenType"
+    expires_in:
+      $ref: "_fields.yaml#/ExpiresIn"
+    refresh_expires_in:
+      $ref: "_fields.yaml#/RefreshExpiresIn"
 
 RefreshRequest:
   type: object
@@ -86,15 +97,26 @@ RefreshRequest:
 
 TokenResponse:
   type: object
-  description: Response containing a new token pair
+  description: >-
+    Response containing a new token pair and its effective lifetimes in
+    seconds.
   required:
     - access_token
     - refresh_token
+    - token_type
+    - expires_in
+    - refresh_expires_in
   properties:
     access_token:
       $ref: "_fields.yaml#/AccessToken"
     refresh_token:
       $ref: "_fields.yaml#/RefreshToken"
+    token_type:
+      $ref: "_fields.yaml#/TokenType"
+    expires_in:
+      $ref: "_fields.yaml#/ExpiresIn"
+    refresh_expires_in:
+      $ref: "_fields.yaml#/RefreshExpiresIn"
 
 LogoutRequest:
   type: object
