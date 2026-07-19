@@ -6,9 +6,9 @@ register:
     summary: Start registration by requesting a verification code
     description: >-
       First step of the email-first registration flow. Only an email address is
-      required. If the email is available, a numeric one-time verification code
-      (OTP) is generated and emailed to the user. The response is intentionally
-      generic to avoid disclosing whether the email is already registered.
+      required. A new address receives a numeric one-time verification code;
+      an existing account may receive recovery guidance. The response and fixed
+      resend policy are intentionally generic to avoid disclosing either state.
     operationId: startRegistration
     tags:
       - Auth
@@ -22,13 +22,14 @@ register:
             email: "juan@example.com"
     responses:
       "200":
-        description: If the email is available, a verification code has been sent
+        description: Generic email-dispatch response with a fixed resend policy
         content:
           application/json:
             schema:
-              $ref: "../schemas/auth.yaml#/MessageResponse"
+              $ref: "../schemas/auth.yaml#/CodeRequestResponse"
             example:
-              message: "if the email is available, a verification code has been sent"
+              message: "if the address is valid, an email with the next steps has been sent; it may take a few minutes, so check the spam folder before requesting another email"
+              resend_cooldown_seconds: 900
       "400":
         description: Invalid request body (missing or invalid email)
         content:
@@ -44,7 +45,9 @@ register-verify:
       Second step of the email-first registration flow. The user submits the
       numeric verification code (OTP) received by email together with their name
       and password. On success the account is created and an authentication
-      token pair is returned.
+      token pair is returned. OTP failures are intentionally indistinguishable;
+      the response does not reveal account existence, code existence, expiry,
+      remaining lifetime, or remaining attempts.
     operationId: register
     tags:
       - Auth
@@ -76,15 +79,6 @@ register-verify:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
               error: "invalid or expired verification code"
-      "409":
-        description: Email already registered
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/error.yaml#/ErrorResponse"
-            example:
-              error: "email already registered"
-
 # POST /auth/login
 login:
   post:
@@ -258,13 +252,14 @@ password-reset:
             email: "juan@example.com"
     responses:
       "200":
-        description: If the email exists, a password reset code has been sent
+        description: Generic reset-code response with a fixed resend policy
         content:
           application/json:
             schema:
-              $ref: "../schemas/auth.yaml#/MessageResponse"
+              $ref: "../schemas/auth.yaml#/CodeRequestResponse"
             example:
-              message: "if the email exists, a password reset code has been sent"
+              message: "if the address is associated with an account, a password reset code has been sent; it may take a few minutes, so check the spam folder before requesting another code"
+              resend_cooldown_seconds: 900
       "400":
         description: Invalid request body (missing email)
         content:
@@ -276,6 +271,10 @@ password-reset:
 password-reset-verify:
   post:
     summary: Reset password using the numeric verification code (OTP)
+    description: >-
+      Verifies the reset code and applies a new password. OTP failures are
+      intentionally indistinguishable; the response does not reveal account
+      existence, code existence, expiry, remaining lifetime, or remaining attempts.
     operationId: verifyPasswordReset
     tags:
       - Auth
@@ -305,4 +304,4 @@ password-reset-verify:
             schema:
               $ref: "../schemas/error.yaml#/ErrorResponse"
             example:
-              error: "invalid or expired code"
+              error: "invalid or expired verification code"

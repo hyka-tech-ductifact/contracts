@@ -119,6 +119,26 @@ MessageResponse:
       description: Human-readable success message
       example: "logged out successfully"
 
+CodeRequestResponse:
+  type: object
+  description: >-
+    Generic response for requesting a verification code. The cooldown is the
+    public resend policy, not the remaining lifetime or existence of a code.
+  additionalProperties: false
+  required:
+    - message
+    - resend_cooldown_seconds
+  properties:
+    message:
+      type: string
+      description: Generic message that does not disclose account or code state
+    resend_cooldown_seconds:
+      type: integer
+      format: int64
+      minimum: 1
+      description: Fixed policy duration the client may use for a local resend countdown
+      example: 900
+
 ChangePasswordRequest:
   type: object
   description: Request body for changing the user's password

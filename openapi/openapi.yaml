@@ -128,6 +128,8 @@ components:
       $ref: "schemas/auth.yaml#/StartRegistrationRequest"
     TokenResponse:
       $ref: "schemas/auth.yaml#/TokenResponse"
+    CodeRequestResponse:
+      $ref: "schemas/auth.yaml#/CodeRequestResponse"
 
     # Client
     ClientResponse:
